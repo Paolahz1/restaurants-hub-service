@@ -15,6 +15,8 @@ public interface IRestaurantMapper {
     Restaurant toDomain(CreateRestaurantCommand command);
 
 
+    @Mapping(source = "id", target = "restaurantId" )
+    @Mapping(target = "success", constant = "true")
     @Mapping(source = "name", target = "restaurantName" )
     CreateRestaurantResponse toResponse(Restaurant restaurant);
 }
