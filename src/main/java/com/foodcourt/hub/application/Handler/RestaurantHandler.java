@@ -24,12 +24,9 @@ public class RestaurantHandler implements IRestaurantHandler{
 
         Restaurant restaurantDomain = restaurantMapper.toDomain(restaurantCommand);
         Restaurant response = createRestaurantServicePort.create(restaurantDomain);
+        return restaurantMapper.toResponse(response);
 
-        return CreateRestaurantResponse.builder()
-                .restaurantId(response.getId())
-                .restaurantName(response.getName())
-                .success(true)
-                .build();
+
 
     }
 }

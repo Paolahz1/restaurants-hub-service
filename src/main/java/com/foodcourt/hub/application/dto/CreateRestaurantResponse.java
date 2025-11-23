@@ -1,11 +1,15 @@
 package com.foodcourt.hub.application.dto;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.*;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class CreateRestaurantResponse {
 
     private Long restaurantId;

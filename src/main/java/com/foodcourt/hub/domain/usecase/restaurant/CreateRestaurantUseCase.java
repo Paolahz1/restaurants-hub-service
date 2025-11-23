@@ -23,10 +23,10 @@ public class CreateRestaurantUseCase implements ICreateRestaurantServicePort {
     @Override
     public Restaurant create(Restaurant restaurant) {
 
+        validateOwner(restaurant.getOwnerId());
         validateNitFormat(restaurant.getNit());
         validatePhone(restaurant.getPhoneNumber());
         validateName(restaurant.getName());
-        validateOwner(restaurant.getOwnerId());
 
         if (restaurantPersistencePort.existsByNit(restaurant.getNit())) {
             throw new NitAlreadyExistsException();
@@ -38,6 +38,13 @@ public class CreateRestaurantUseCase implements ICreateRestaurantServicePort {
             throw new DatabaseException();
         }
 
+    }
+
+    private void validateOwner(Long ownerId) {
+        String role = userVerificationPort.getUserRole(ownerId);
+        if (!"OWNER".equalsIgnoreCase(role)) {
+            throw new UserIsNotOwnerException();
+        }
     }
 
     private void validateNitFormat(String nit) {
@@ -58,10 +65,5 @@ public class CreateRestaurantUseCase implements ICreateRestaurantServicePort {
         }
     }
 
-    private void validateOwner(Long ownerId) {
-        String role = userVerificationPort.getUserRole(ownerId);
-        if (!"OWNER".equalsIgnoreCase(role)) {
-            throw new UserIsNotOwnerException();
-        }
-    }
+
 }
