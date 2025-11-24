@@ -3,6 +3,6 @@ import com.foodcourt.hub.domain.model.Dish;
 
 public interface ICreateDishServicePort {
 
-    Dish create(Dish dish);
+    void create(Dish dish, Long ownerId);
 
 }
