@@ -2,7 +2,9 @@ package com.foodcourt.hub.infrastructure.output.jpa.adapter;
 
 import com.foodcourt.hub.domain.port.spi.IUserVerificationPort;
 import com.foodcourt.hub.infrastructure.output.dto.RoleResponse;
+import com.foodcourt.hub.infrastructure.output.dto.UserResponse;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.User;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -15,10 +17,22 @@ public class UserVerificationRestAdapter implements IUserVerificationPort {
     @Override
     public String getUserRole(Long id) {
         RoleResponse response = webClient.get()
-                .uri("users/{id}/role", id)
+                .uri("users/auth/{id}/role", id)
                 .retrieve()
                 .bodyToMono(RoleResponse.class)
                 .block();
         return response.getRole();
     }
+
+    @Override
+    public UserResponse getUser(Long id) {
+        return webClient.get()
+                .uri("users/auth/{id}", id)
+                .retrieve()
+                .bodyToMono(UserResponse.class)
+                .block();
+
+    }
+
+
 }

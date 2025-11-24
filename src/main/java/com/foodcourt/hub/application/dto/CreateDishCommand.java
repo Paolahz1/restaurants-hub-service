@@ -1,4 +1,4 @@
-package com.foodcourt.hub.domain.model;
+package com.foodcourt.hub.application.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Dish {
+public class CreateDishCommand {
 
-    private Long id;
+    private String idOwner; //temporal
     private String name;
     private Long price;
     private String description;
