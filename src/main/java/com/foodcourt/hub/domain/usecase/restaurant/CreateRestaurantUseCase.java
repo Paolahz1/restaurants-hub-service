@@ -1,6 +1,6 @@
 package com.foodcourt.hub.domain.usecase.restaurant;
 
-import com.foodcourt.hub.domain.Exception.*;
+import com.foodcourt.hub.domain.exception.*;
 import com.foodcourt.hub.domain.model.Restaurant;
 import com.foodcourt.hub.domain.port.api.restaurant.ICreateRestaurantServicePort;
 import com.foodcourt.hub.domain.port.spi.IRestaurantPersistencePort;

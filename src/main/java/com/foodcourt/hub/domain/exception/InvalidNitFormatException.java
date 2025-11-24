@@ -1,6 +1,4 @@
-package com.foodcourt.hub.domain.Exception;
-
-import javax.swing.plaf.SeparatorUI;
+package com.foodcourt.hub.domain.exception;
 
 public class InvalidNitFormatException extends RuntimeException{
     public InvalidNitFormatException() {
