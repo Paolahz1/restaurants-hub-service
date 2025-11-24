@@ -40,7 +40,7 @@ class CreateRestaurantUseCaseTest {
         when(verificationPort.getUserRole(testRestaurant.getOwnerId())).thenReturn("OWNER");
         when(persistencePort.saveRestaurant(testRestaurant)).thenReturn(testRestaurant);
 
-        Restaurant created = useCase.create(testRestaurant);
+       useCase.create(testRestaurant);
 
         verify(persistencePort).saveRestaurant(argThat(r ->
                 r.getName().equals("La Buena Mesa") &&
