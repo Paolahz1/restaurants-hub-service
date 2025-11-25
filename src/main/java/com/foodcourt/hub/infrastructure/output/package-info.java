@@ -1,0 +1,1 @@
+package com.foodcourt.hub.infrastructure.output;

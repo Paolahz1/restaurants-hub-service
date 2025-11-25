@@ -1,14 +1,12 @@
 package com.foodcourt.hub.application.handler;
 
 import com.foodcourt.hub.application.dto.CreateDishCommand;
-import com.foodcourt.hub.application.dto.CreateRestaurantCommand;
-import com.foodcourt.hub.application.dto.CreateRestaurantResponse;
-import com.foodcourt.hub.application.mapper.CreateDishCommandMapper;
-import com.foodcourt.hub.application.mapper.IRestaurantMapper;
+import com.foodcourt.hub.application.dto.UpdateDishCommand;
+import com.foodcourt.hub.application.dto.UpdateDishResponse;
+import com.foodcourt.hub.application.mapper.ICreateDishCommandMapper;
 import com.foodcourt.hub.domain.model.Dish;
-import com.foodcourt.hub.domain.model.Restaurant;
 import com.foodcourt.hub.domain.port.api.dish.ICreateDishServicePort;
-import com.foodcourt.hub.domain.port.api.restaurant.ICreateRestaurantServicePort;
+import com.foodcourt.hub.domain.port.api.dish.IUpdateDishServicePort;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,15 +16,23 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class DishHandler implements IDishHandler{
 
-    private final CreateDishCommandMapper mapper;
+    private final ICreateDishCommandMapper mapper;
     private final ICreateDishServicePort createDishServicePort;
+    private final IUpdateDishServicePort updateDishServicePort;
 
     @Override
-    public void createDish(CreateDishCommand command) {
-        Dish dish = mapper.toDish(command);
-        Long ownerId = mapper.getOwnerId(command);
-
+    public void createDish(CreateDishCommand command, Long ownerId) {
+        Dish dish = mapper.toDomain(command);
         createDishServicePort.create(dish, ownerId);
+    }
+
+    @Override
+    public void updateDish(UpdateDishCommand command, Long ownerId) {
+        updateDishServicePort.updateDish(
+                command.getDishId(), command.getPrice(), command.getDescription(), ownerId
+        );
+
+
     }
 
 }

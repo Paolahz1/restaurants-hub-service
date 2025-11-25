@@ -1,8 +1,7 @@
-package com.foodcourt.hub.domain.usecase.restaurant;
+package com.foodcourt.hub.domain.usecase;
 
 import com.foodcourt.hub.domain.exception.DatabaseException;
 import com.foodcourt.hub.domain.exception.InvalidPhoneNumberException;
-import com.foodcourt.hub.domain.exception.InvalidRestaurantNameException;
 import com.foodcourt.hub.domain.exception.UserIsNotOwnerException;
 import com.foodcourt.hub.domain.model.Restaurant;
 import com.foodcourt.hub.domain.port.spi.IRestaurantPersistencePort;
@@ -16,7 +15,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.transaction.TransactionSystemException;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
