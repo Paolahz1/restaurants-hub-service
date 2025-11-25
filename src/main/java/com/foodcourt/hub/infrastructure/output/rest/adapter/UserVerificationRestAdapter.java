@@ -1,10 +1,9 @@
-package com.foodcourt.hub.infrastructure.output.jpa.adapter;
+package com.foodcourt.hub.infrastructure.output.rest.adapter;
 
 import com.foodcourt.hub.domain.port.spi.IUserVerificationPort;
-import com.foodcourt.hub.infrastructure.output.dto.RoleResponse;
-import com.foodcourt.hub.infrastructure.output.dto.UserResponse;
+import com.foodcourt.hub.infrastructure.output.rest.entity.RoleResponse;
+import com.foodcourt.hub.infrastructure.output.rest.entity.UserResponse;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.User;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 

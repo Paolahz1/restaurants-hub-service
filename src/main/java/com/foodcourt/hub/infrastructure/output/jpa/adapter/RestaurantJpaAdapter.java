@@ -19,20 +19,29 @@ public class RestaurantJpaAdapter implements IRestaurantPersistencePort {
     public Restaurant saveRestaurant(Restaurant restaurant) {
         RestaurantEntity restaurantEntity = mapper.toEntity(restaurant);
         RestaurantEntity savedEntity = repository.save(restaurantEntity);
-        return mapper.toDamain(savedEntity);
+        return mapper.toDomain(savedEntity);
     }
 
     @Override
     public boolean existsByNit(String nit) {
         return repository.findByNit(nit).isPresent();
-
     }
 
+    //todo eliminar esto y sustituir por el validator
     @Override
     public Long getOwnerIdByRestaurant(Long idRestaurant) {
         return  repository.findById(idRestaurant)
                 .map(RestaurantEntity::getOwnerId)
                 .orElse(null);
     }
+
+    @Override
+    public Restaurant findById(Long idRestaurant) {
+        RestaurantEntity restaurantEntity = repository.findById(idRestaurant)
+                .orElse(null);
+
+        return mapper.toDomain(restaurantEntity);
+    }
+
 
 }

@@ -51,4 +51,9 @@ public class ControllerAdvisor {
                 .body(Collections.singletonMap(MESSAGE, ExceptionResponse.DATABASE_ERROR.getMessage()));
     }
 
+    @ExceptionHandler(InvalidPermissionException.class)
+    public ResponseEntity<Map<String, String>> handleInvalidPermissionException(InvalidPermissionException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(Collections.singletonMap(MESSAGE, ExceptionResponse.INVALID_PERMISSION.getMessage()));
+    }
 }

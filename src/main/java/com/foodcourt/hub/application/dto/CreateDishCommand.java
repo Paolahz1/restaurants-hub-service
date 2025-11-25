@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CreateDishCommand {
 
-    private String idOwner; //temporal
     private String name;
     private Long price;
     private String description;

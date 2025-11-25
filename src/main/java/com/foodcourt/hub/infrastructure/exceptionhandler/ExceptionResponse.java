@@ -6,7 +6,8 @@ public enum ExceptionResponse {
     INVALID_NIT_FORMAT("The NIT format is invalid"),
     INVALID_PHONE_NUMBER("The phone number format is invalid"),
     INVALID_RESTAURANT_NAME("The restaurant name is invalid"),
-    DATABASE_ERROR("There was an error accessing the database");
+    DATABASE_ERROR("There was an error accessing the database"),
+    INVALID_PERMISSION("You do not have the permission to make this request");
 
     private final String message;
 
