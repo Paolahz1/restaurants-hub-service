@@ -1,4 +1,4 @@
-package com.foodcourt.hub.domain.usecase.restaurant;
+package com.foodcourt.hub.domain.usecase;
 
 import com.foodcourt.hub.domain.exception.*;
 import com.foodcourt.hub.domain.model.Restaurant;
@@ -64,6 +64,5 @@ public class CreateRestaurantUseCase implements ICreateRestaurantServicePort {
             throw new InvalidRestaurantNameException();
         }
     }
-
 
 }

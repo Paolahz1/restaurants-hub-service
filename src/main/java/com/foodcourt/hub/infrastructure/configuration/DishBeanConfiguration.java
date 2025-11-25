@@ -1,24 +1,32 @@
 package com.foodcourt.hub.infrastructure.configuration;
 
 import com.foodcourt.hub.domain.port.api.dish.ICreateDishServicePort;
+import com.foodcourt.hub.domain.port.api.dish.IUpdateDishServicePort;
 import com.foodcourt.hub.domain.port.spi.IDishPersistencePort;
 import com.foodcourt.hub.domain.port.spi.IRestaurantPersistencePort;
-import com.foodcourt.hub.domain.port.spi.IUserVerificationPort;
-import com.foodcourt.hub.domain.usecase.restaurant.CreateDishUseCase;
-import lombok.AllArgsConstructor;
+import com.foodcourt.hub.domain.port.spi.IValidationPort;
+import com.foodcourt.hub.domain.usecase.CreateDishUseCase;
+import com.foodcourt.hub.domain.usecase.UpdateDishUseCase;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class DishBeanConfiguration {
 
     private final IDishPersistencePort dishPersistencePort;
     private final IRestaurantPersistencePort restaurantPersistencePort;
-    private final IUserVerificationPort userVerificationPort;
+    private final IValidationPort validationPort;
 
     @Bean
     public ICreateDishServicePort createDishServicePort(){
-        return new CreateDishUseCase(dishPersistencePort, restaurantPersistencePort, userVerificationPort);
+        return new CreateDishUseCase(dishPersistencePort, restaurantPersistencePort);
     }
+
+    @Bean
+    public IUpdateDishServicePort updateDishServicePort(){
+        return new UpdateDishUseCase(dishPersistencePort, validationPort);
+    }
+
 }
