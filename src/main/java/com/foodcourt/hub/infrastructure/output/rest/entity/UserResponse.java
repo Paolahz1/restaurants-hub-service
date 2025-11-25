@@ -1,4 +1,4 @@
-package com.foodcourt.hub.infrastructure.output.dto;
+package com.foodcourt.hub.infrastructure.output.rest.entity;
 
 import java.time.LocalDate;
 

@@ -11,7 +11,7 @@ public interface IRestaurantEntityMapper  {
 
     RestaurantEntity toEntity (Restaurant restaurant);
 
-    Restaurant toDamain (RestaurantEntity restaurantEntity);
+    Restaurant toDomain(RestaurantEntity restaurantEntity);
 
     List<Restaurant> toDomainList(List<RestaurantEntity> entities);
 }
