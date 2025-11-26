@@ -1,4 +1,4 @@
-package com.foodcourt.hub.infrastructure.output.rest.entity;
+package com.foodcourt.hub.infrastructure.output.rest.dto;
 
 import lombok.Data;
 
