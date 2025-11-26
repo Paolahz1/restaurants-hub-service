@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class UpdateDishUseCaseTest {
+class UpdateStateDishUseCaseTest {
 
     @Mock
     IDishPersistencePort persistencePort;
@@ -24,27 +24,22 @@ class UpdateDishUseCaseTest {
     IValidationPort validationPort;
 
     @InjectMocks
-    UpdateDishUseCase useCase;
+    UpdateStateDishUseCase useCase;
 
     @Test
-    void shouldUpdateDishWhenOwnerIsValidAndDishExists() {
+    void shouldUpdateDishStateWhenOwnerIsValidAndDishExists() {
         Long dishId = 1L;
         Long ownerId = 10L;
-        Long price = 500L;
-        String description = "New description";
+        boolean state = false;
 
         Dish dish = new Dish();
-        dish.setId(dishId);
-        dish.setPrice(100L);
-        dish.setDescription("Old description");
-
+        dish.setStatus(true);
         when(validationPort.validateOwnerOfDish(ownerId, dishId)).thenReturn(true);
         when(persistencePort.findByID(dishId)).thenReturn(dish);
 
-        useCase.updateDish(dishId, price, description, ownerId);
+        useCase.updateStateDish(dishId, state, ownerId); //Esta es la única parte donde ocurre un cambio real.
 
-        assertEquals(price, dish.getPrice());
-        assertEquals(description, dish.getDescription());
+        assertEquals(state, dish.isStatus());
         verify(persistencePort).saveDish(dish);
     }
 
@@ -52,34 +47,34 @@ class UpdateDishUseCaseTest {
     void shouldThrowExceptionWhenIsNotOwnerOfDish() {
         Long dishId = 1L;
         Long ownerId = 10L;
-        Long price = 500L;
-        String description = "New description";
+        boolean state = false;
 
         when(validationPort.validateOwnerOfDish(ownerId, dishId)).thenReturn(false);
+
         assertThrows(InvalidPermissionException.class, () ->
-                useCase.updateDish(dishId, price, description, ownerId )
+                useCase.updateStateDish(dishId, state,ownerId )
         );
 
         verify(persistencePort, never()).saveDish(any());
     }
+
 
     @Test
     void shouldThrowDishNotFoundExceptionWhenDishDoesNotExist() {
         Long dishId = 1L;
         Long ownerId = 10L;
+        boolean state = false;
 
+        // Dish dish = new Dish();
+        // dish.setStatus(true);
         when(validationPort.validateOwnerOfDish(ownerId, dishId)).thenReturn(true);
-        when(persistencePort.findByID(dishId)).thenReturn(null);
+         when(persistencePort.findByID(dishId)).thenReturn(null);
 
         assertThrows(DishNotFoundException.class, () ->
-                useCase.updateDish(dishId, 500L, "desc", ownerId)
-        );
+                useCase.updateStateDish(dishId, state, ownerId));
 
         verify(persistencePort, never()).saveDish(any());
     }
-
-
-
 
 
 
