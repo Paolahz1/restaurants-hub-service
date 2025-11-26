@@ -4,15 +4,19 @@ import com.foodcourt.hub.domain.model.Restaurant;
 import com.foodcourt.hub.domain.port.spi.IRestaurantPersistencePort;
 import com.foodcourt.hub.infrastructure.output.jpa.entity.RestaurantEntity;
 import com.foodcourt.hub.infrastructure.output.jpa.mapper.IRestaurantEntityMapper;
-import com.foodcourt.hub.infrastructure.output.jpa.respository.IRestaurantRepository;
+import com.foodcourt.hub.infrastructure.output.jpa.respository.IRestaurantJpaRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
 public class RestaurantJpaAdapter implements IRestaurantPersistencePort {
 
-    private final IRestaurantRepository repository;
+    private final IRestaurantJpaRepository repository;
     private final IRestaurantEntityMapper mapper;
 
     @Override
@@ -41,6 +45,13 @@ public class RestaurantJpaAdapter implements IRestaurantPersistencePort {
                 .orElse(null);
 
         return mapper.toDomain(restaurantEntity);
+    }
+
+    @Override
+    public Page<Restaurant> getRestaurants(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("name").ascending());
+        Page<RestaurantEntity> entities = repository.findAll(pageable); //Spring Data devuelve un Page<RestaurantEntity> automáticamente
+        return entities.map(mapper::toDomain);
     }
 
 
