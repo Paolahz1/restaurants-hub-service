@@ -21,12 +21,6 @@ public class RestaurantController {
 
         CreateRestaurantResponse response = handler.createRestaurant(command);
 
-        if(!response.isSuccess()){
-            return ResponseEntity
-                    .status(HttpStatus.CONFLICT)
-                    .body(response);
-        }
-
         return ResponseEntity.
                 status(HttpStatus.CREATED)
                 .body(response);
