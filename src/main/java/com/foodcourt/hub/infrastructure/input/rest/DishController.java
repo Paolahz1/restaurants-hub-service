@@ -3,6 +3,7 @@ package com.foodcourt.hub.infrastructure.input.rest;
 import com.foodcourt.hub.application.dto.CreateDishCommand;
 import com.foodcourt.hub.application.dto.UpdateDishCommand;
 import com.foodcourt.hub.application.dto.UpdateDishResponse;
+import com.foodcourt.hub.application.dto.UpdateStatusDishCommand;
 import com.foodcourt.hub.application.handler.IDishHandler;
 import com.foodcourt.hub.infrastructure.security.UserPrincipal;
 import lombok.RequiredArgsConstructor;
@@ -40,6 +41,20 @@ public class DishController {
         handler.updateDish(command, ownerId);
         return ResponseEntity.ok().build();
     }
+
+
+    @PatchMapping("status")
+    @PreAuthorize("hasRole('OWNER')")
+    public  ResponseEntity<Void> updateStatusDish(@RequestBody UpdateStatusDishCommand command){
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserPrincipal userPrincipal = (UserPrincipal) auth.getPrincipal();
+        Long ownerId = userPrincipal.id();
+        handler.updateStatusDish(command, ownerId);
+
+        return ResponseEntity.ok().build();
+    }
+
 
 }
 

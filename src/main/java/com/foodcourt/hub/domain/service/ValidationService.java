@@ -6,7 +6,6 @@ import com.foodcourt.hub.domain.port.spi.IDishPersistencePort;
 import com.foodcourt.hub.domain.port.spi.IRestaurantPersistencePort;
 import com.foodcourt.hub.domain.port.spi.IValidationPort;
 
-
 public class ValidationService implements IValidationPort
 {
     private  final IDishPersistencePort dishPersistencePort;
