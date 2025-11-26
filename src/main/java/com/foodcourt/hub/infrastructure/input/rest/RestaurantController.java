@@ -6,6 +6,7 @@ import com.foodcourt.hub.application.handler.IRestaurantHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,8 +15,8 @@ import org.springframework.web.bind.annotation.*;
 public class RestaurantController {
 
     private final IRestaurantHandler handler;
-
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CreateRestaurantResponse> saveRestaurant(@RequestBody CreateRestaurantCommand command){
 
         CreateRestaurantResponse response = handler.createRestaurant(command);
@@ -29,7 +30,5 @@ public class RestaurantController {
         return ResponseEntity.
                 status(HttpStatus.CREATED)
                 .body(response);
-
     }
-
 }
