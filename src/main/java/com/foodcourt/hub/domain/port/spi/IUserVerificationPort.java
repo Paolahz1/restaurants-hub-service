@@ -1,6 +1,6 @@
 package com.foodcourt.hub.domain.port.spi;
 
-import com.foodcourt.hub.infrastructure.output.rest.entity.UserResponse;
+import com.foodcourt.hub.infrastructure.output.rest.dto.UserResponse;
 
 public interface IUserVerificationPort {
 

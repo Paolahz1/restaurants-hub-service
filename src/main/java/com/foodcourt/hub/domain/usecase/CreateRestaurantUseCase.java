@@ -41,6 +41,7 @@ public class CreateRestaurantUseCase implements ICreateRestaurantServicePort {
     }
 
     private void validateOwner(Long ownerId) {
+        //Lo pide al otro MS
         String role = userVerificationPort.getUserRole(ownerId);
         if (!"OWNER".equalsIgnoreCase(role)) {
             throw new UserIsNotOwnerException();
