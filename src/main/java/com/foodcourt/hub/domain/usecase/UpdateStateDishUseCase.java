@@ -21,13 +21,13 @@ public class UpdateStateDishUseCase implements IUpdateStateDishServicePort {
     @Override
     public void updateStateDish(Long dishId, boolean state, Long ownerId) {
 
+        if(!validationService.validateOwnerOfDish(ownerId, dishId)){
+            throw new InvalidPermissionException();
+        }
+
         Dish dish = persistencePort.findByID(dishId);
         if(dish == null){
             throw new DishNotFoundException();
-        }
-
-        if(!validationService.validateOwnerOfDish(ownerId, dishId)){
-            throw new InvalidPermissionException();
         }
 
         dish.setStatus(state);

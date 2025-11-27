@@ -21,9 +21,9 @@ public class CreateDishUseCase implements ICreateDishServicePort {
     @Override
     public void create(Dish dish, Long ownerId) {
 
-       Long responseId = restaurantPersistencePort.getOwnerIdByRestaurant(dish.getRestaurantId());
+       Long ownerIdResponse = restaurantPersistencePort.getOwnerIdByRestaurant(dish.getRestaurantId());
 
-       if(!responseId.equals(ownerId)){
+       if(!ownerIdResponse.equals(ownerId)){
            throw new InvalidPermissionException();
        }
 
