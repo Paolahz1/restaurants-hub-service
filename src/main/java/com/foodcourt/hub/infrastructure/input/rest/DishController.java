@@ -2,8 +2,10 @@ package com.foodcourt.hub.infrastructure.input.rest;
 
 import com.foodcourt.hub.application.dto.*;
 import com.foodcourt.hub.application.handler.IDishHandler;
-import com.foodcourt.hub.domain.model.Category;
 import com.foodcourt.hub.infrastructure.security.UserPrincipal;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,13 +15,18 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/hub-service/dish/")
+@RequestMapping("/hub-service/dish")
 @RequiredArgsConstructor
 public class DishController {
 
     private final IDishHandler handler;
 
-    @PostMapping
+    @Operation(summary = "Create a new dish", description = "Creates a new dish for the authenticated OWNER.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Dish created successfully"),
+            @ApiResponse(responseCode = "403", description = "Access denied — OWNER role required")
+    })
+    @PostMapping("/")
     @PreAuthorize("hasRole('OWNER')")
     public ResponseEntity<Void> createDish(@RequestBody CreateDishCommand command) {
 
@@ -30,7 +37,12 @@ public class DishController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PatchMapping
+    @Operation(summary = "Update a dish", description = "Updates the details of a dish for the authenticated OWNER.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Dish updated successfully"),
+            @ApiResponse(responseCode = "403", description = "Access denied — OWNER role required")
+    })
+    @PatchMapping("/")
     @PreAuthorize("hasRole('OWNER')")
     public ResponseEntity<UpdateDishResponse> updateDish(@RequestBody UpdateDishCommand command){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -40,7 +52,11 @@ public class DishController {
         return ResponseEntity.ok().build();
     }
 
-
+    @Operation(summary = "Update dish status", description = "Changes the availability status of a dish for the authenticated OWNER.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Dish status updated successfully"),
+            @ApiResponse(responseCode = "403", description = "Access denied — OWNER role required")
+    })
     @PatchMapping("status")
     @PreAuthorize("hasRole('OWNER')")
     public  ResponseEntity<Void> updateStatusDish(@RequestBody UpdateStatusDishCommand command){
@@ -53,7 +69,12 @@ public class DishController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping
+    @Operation(summary = "Get paginated dishes", description = "Retrieves a paginated list of dishes for a given restaurant and optional category.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Dishes retrieved successfully")
+    })
+
+    @GetMapping("/")
     public  ResponseEntity<GetPageDishesResponse> getPageDishes(
             @RequestParam int page,
             @RequestParam int size,
