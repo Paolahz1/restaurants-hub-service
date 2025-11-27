@@ -16,7 +16,7 @@ public class Dish {
     private Long price;
     private String description;
     private String urlImage;
-    private String category;
+    private Category category;
     private boolean status;
     private Long restaurantId;
 }
