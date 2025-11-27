@@ -1,5 +1,6 @@
 package com.foodcourt.hub.application.dto;
 
+import com.foodcourt.hub.domain.model.Category;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,6 +10,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+
+
 public class CreateDishCommand {
 
     private String name;
