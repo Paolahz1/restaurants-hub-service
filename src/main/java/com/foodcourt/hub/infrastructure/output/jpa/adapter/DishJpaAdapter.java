@@ -1,11 +1,15 @@
 package com.foodcourt.hub.infrastructure.output.jpa.adapter;
 
+import com.foodcourt.hub.domain.model.Category;
 import com.foodcourt.hub.domain.model.Dish;
 import com.foodcourt.hub.domain.port.spi.IDishPersistencePort;
 import com.foodcourt.hub.infrastructure.output.jpa.entity.DishEntity;
 import com.foodcourt.hub.infrastructure.output.jpa.mapper.IDishEntityMapper;
 import com.foodcourt.hub.infrastructure.output.jpa.respository.IDishRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -29,5 +33,12 @@ public class DishJpaAdapter implements IDishPersistencePort {
                 repository.findById(id).
                 orElse(null);
         return mapper.toDomain(dishEntity);
+    }
+
+    @Override
+    public Page<Dish> getPageFromDb(int page, int size, long restaurantId, Category category) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<DishEntity> entities = repository.findDishes(restaurantId, category, pageable);
+        return entities.map(mapper::toDomain);
     }
 }

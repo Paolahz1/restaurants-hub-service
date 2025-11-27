@@ -1,10 +1,8 @@
 package com.foodcourt.hub.infrastructure.input.rest;
 
-import com.foodcourt.hub.application.dto.CreateDishCommand;
-import com.foodcourt.hub.application.dto.UpdateDishCommand;
-import com.foodcourt.hub.application.dto.UpdateDishResponse;
-import com.foodcourt.hub.application.dto.UpdateStatusDishCommand;
+import com.foodcourt.hub.application.dto.*;
 import com.foodcourt.hub.application.handler.IDishHandler;
+import com.foodcourt.hub.domain.model.Category;
 import com.foodcourt.hub.infrastructure.security.UserPrincipal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -55,6 +53,24 @@ public class DishController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping
+    public  ResponseEntity<GetPageDishesResponse> getPageDishes(
+            @RequestParam int page,
+            @RequestParam int size,
+            @RequestParam long restaurantId,
+            @RequestParam(required = false) String category
+    ){
+
+        GetDishesCommand command = GetDishesCommand.builder()
+                .page(page)
+                .size(size)
+                .restaurantId(restaurantId)
+                .category(category)
+                .build();
+
+        GetPageDishesResponse response = handler.getDishes(command);
+        return ResponseEntity.ok(response);
+    }
 
 }
 
