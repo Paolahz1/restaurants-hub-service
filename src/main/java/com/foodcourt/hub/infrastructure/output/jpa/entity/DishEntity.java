@@ -1,5 +1,6 @@
 package com.foodcourt.hub.infrastructure.output.jpa.entity;
 
+import com.foodcourt.hub.domain.model.Category;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,11 +23,14 @@ public class DishEntity {
     @Column(nullable = false)
     private Long price;
 
+    @Column(nullable = false)
     private String description;
 
+    @Column(nullable = false)
     private String urlImage;
 
-    private String category;
+    @Enumerated(EnumType.STRING)
+    private Category category;
 
     @Column(nullable = false)
     private boolean status;
