@@ -4,7 +4,7 @@ public enum Category {
     ENTRADA,
     PLATO_FUERTE,
     BEBIDA,
-    POSTRE;
+    POSTRE
 
 }
 
