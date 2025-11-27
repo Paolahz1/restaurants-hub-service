@@ -19,4 +19,5 @@ public interface IRestaurantMapper {
     @Mapping(target = "success", constant = "true")
     @Mapping(source = "name", target = "restaurantName" )
     CreateRestaurantResponse toResponse(Restaurant restaurant);
+
 }

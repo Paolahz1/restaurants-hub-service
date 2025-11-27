@@ -6,7 +6,7 @@ import com.foodcourt.hub.domain.model.Dish;
 import com.foodcourt.hub.domain.port.api.dish.IUpdateDishServicePort;
 import com.foodcourt.hub.domain.port.spi.IDishPersistencePort;
 import com.foodcourt.hub.domain.port.spi.IValidationPort;
-import org.springframework.security.authentication.DisabledException;
+
 
 public class UpdateDishUseCase implements IUpdateDishServicePort {
 
@@ -24,7 +24,6 @@ public class UpdateDishUseCase implements IUpdateDishServicePort {
        if (!validationPort.validateOwnerOfDish(ownerId, idDish)){
             throw new InvalidPermissionException();
        }
-
 
        Dish dish = persistencePort.findByID(idDish);
        if(dish == null){

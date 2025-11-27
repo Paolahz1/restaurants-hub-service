@@ -53,7 +53,7 @@ public class ControllerAdvisor {
 
     @ExceptionHandler(InvalidPermissionException.class)
     public ResponseEntity<Map<String, String>> handleInvalidPermissionException(InvalidPermissionException ex) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
                 .body(Collections.singletonMap(MESSAGE, ExceptionResponse.INVALID_PERMISSION.getMessage()));
     }
 }

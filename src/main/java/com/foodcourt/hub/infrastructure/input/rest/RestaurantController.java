@@ -2,6 +2,7 @@ package com.foodcourt.hub.infrastructure.input.rest;
 
 import com.foodcourt.hub.application.dto.CreateRestaurantCommand;
 import com.foodcourt.hub.application.dto.CreateRestaurantResponse;
+import com.foodcourt.hub.application.dto.GetPageRestaurantsResponse;
 import com.foodcourt.hub.application.handler.IRestaurantHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,14 +22,18 @@ public class RestaurantController {
 
         CreateRestaurantResponse response = handler.createRestaurant(command);
 
-        if(!response.isSuccess()){
-            return ResponseEntity
-                    .status(HttpStatus.CONFLICT)
-                    .body(response);
-        }
-
         return ResponseEntity.
                 status(HttpStatus.CREATED)
                 .body(response);
     }
+
+    @GetMapping("page/{page}/size/{size}")
+    public ResponseEntity<GetPageRestaurantsResponse> getPageRestaurants(@PathVariable int page, @PathVariable int size ){
+        GetPageRestaurantsResponse response = handler.getPageRestaurants(page, size);
+
+        return  ResponseEntity
+                .status(HttpStatus.OK)
+                .body(response);
+    }
+
 }
