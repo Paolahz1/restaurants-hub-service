@@ -1,9 +1,7 @@
 package com.foodcourt.hub.infrastructure.input.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.foodcourt.hub.application.dto.CreateDishCommand;
-import com.foodcourt.hub.application.dto.UpdateDishCommand;
-import com.foodcourt.hub.application.dto.UpdateStatusDishCommand;
+import com.foodcourt.hub.application.dto.*;
 import com.foodcourt.hub.application.handler.IDishHandler;
 import com.foodcourt.hub.domain.exception.InvalidPermissionException;
 import com.foodcourt.hub.domain.model.Role;
@@ -20,10 +18,12 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Collections;
+import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -121,4 +121,37 @@ class DishControllerTest {
                 )
                 .andExpect(status().isOk());
         }
+
+    @Test
+    void shouldReturnPageDishes()throws Exception {
+
+        GetPageDishesResponse mockedResponse = GetPageDishesResponse.builder()
+                .page(0)
+                .size(5)
+                .totalElements(1)
+                .totalPages(1)
+                .isFirst(true)
+                .isLast(true)
+                .content(List.of())
+                .build();
+
+        when(handler.getDishes(any())).thenReturn(mockedResponse);
+
+        mockMvc.perform(
+                        get("/hub-service/dish/")
+                                .param("page", "0")
+                                .param("size", "5")
+                                .param("restaurantId", "1")
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.page").value(0))
+                .andExpect(jsonPath("$.size").value(5))
+                .andExpect(jsonPath("$.content").isArray());
+
+
+    }
+
+
+
+
 }
