@@ -14,6 +14,7 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface IPageDishesMapper {
 
+
     List<DishSummaryResponse> toSummaryList(List<Dish> restaurants);
 
     default Category map(String category) {

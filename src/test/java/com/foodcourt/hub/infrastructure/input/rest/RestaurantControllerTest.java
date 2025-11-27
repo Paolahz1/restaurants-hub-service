@@ -40,6 +40,8 @@ class RestaurantControllerTest {
     @MockitoBean
     IRestaurantHandler handler;
 
+
+    //Create Restaurant --------------------------------------------
     @Test
     void shouldCreateRestaurantSuccessfully() throws Exception {
 
@@ -104,6 +106,8 @@ class RestaurantControllerTest {
                 .andExpect(jsonPath("$.message").value("The NIT format is invalid"));
     }
 
+
+    //Get Page Restaurants --------------------------------------------
 
     @Test
     void shouldReturnPageOfRestaurants() throws Exception {
