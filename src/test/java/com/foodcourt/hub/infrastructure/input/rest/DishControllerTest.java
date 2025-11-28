@@ -1,7 +1,10 @@
 package com.foodcourt.hub.infrastructure.input.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.foodcourt.hub.application.dto.*;
+import com.foodcourt.hub.application.dto.dish.CreateDishCommand;
+import com.foodcourt.hub.application.dto.dish.GetPageDishesResponse;
+import com.foodcourt.hub.application.dto.dish.UpdateDishCommand;
+import com.foodcourt.hub.application.dto.dish.UpdateStatusDishCommand;
 import com.foodcourt.hub.application.handler.IDishHandler;
 import com.foodcourt.hub.domain.exception.InvalidPermissionException;
 import com.foodcourt.hub.domain.model.Role;

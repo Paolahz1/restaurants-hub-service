@@ -1,4 +1,4 @@
-package com.foodcourt.hub.application.dto;
+package com.foodcourt.hub.application.dto.order;
 
 import com.foodcourt.hub.domain.model.OrderItem;
 import jakarta.validation.constraints.NotNull;

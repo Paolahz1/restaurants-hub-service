@@ -1,14 +1,15 @@
-package com.foodcourt.hub.application.dto;
+package com.foodcourt.hub.application.dto.dish;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-public class GetPageRestaurantsResponse {
+@Builder
+public class GetPageDishesResponse {
 
-    private List<RestaurantSummaryResponse> content;
-
+    private List<DishSummaryResponse> content;
     private int page;
     private int size;
     private long totalElements;

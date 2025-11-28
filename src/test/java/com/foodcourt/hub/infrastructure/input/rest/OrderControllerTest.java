@@ -1,8 +1,8 @@
 package com.foodcourt.hub.infrastructure.input.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.foodcourt.hub.application.dto.CreateOrderCommand;
-import com.foodcourt.hub.application.dto.CreateOrderResponse;
+import com.foodcourt.hub.application.dto.order.CreateOrderCommand;
+import com.foodcourt.hub.application.dto.order.CreateOrderResponse;
 import com.foodcourt.hub.application.handler.IOrderHandler;
 import com.foodcourt.hub.domain.model.Role;
 import com.foodcourt.hub.infrastructure.security.SecurityTestConfig;

@@ -4,8 +4,8 @@ import com.foodcourt.hub.domain.port.api.restaurant.ICreateRestaurantServicePort
 import com.foodcourt.hub.domain.port.api.restaurant.IGetPageRestaurantsServicePort;
 import com.foodcourt.hub.domain.port.spi.IRestaurantPersistencePort;
 import com.foodcourt.hub.domain.port.spi.IUserVerificationPort;
-import com.foodcourt.hub.domain.usecase.CreateRestaurantUseCase;
-import com.foodcourt.hub.domain.usecase.GetPageRestaurantsUseCase;
+import com.foodcourt.hub.domain.usecase.restaurant.CreateRestaurantUseCase;
+import com.foodcourt.hub.domain.usecase.restaurant.GetPageRestaurantsUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
