@@ -1,4 +1,4 @@
-package com.foodcourt.hub.application.dto;
+package com.foodcourt.hub.application.dto.order;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

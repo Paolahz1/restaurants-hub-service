@@ -1,6 +1,6 @@
-package com.foodcourt.hub.application.mapper;
+package com.foodcourt.hub.application.mapper.dish;
 
-import com.foodcourt.hub.application.dto.CreateDishCommand;
+import com.foodcourt.hub.application.dto.dish.CreateDishCommand;
 import com.foodcourt.hub.domain.model.Category;
 import com.foodcourt.hub.domain.model.Dish;
 import org.mapstruct.Mapper;
