@@ -6,6 +6,7 @@ import com.foodcourt.hub.domain.exception.UserIsNotOwnerException;
 import com.foodcourt.hub.domain.model.Restaurant;
 import com.foodcourt.hub.domain.port.spi.IRestaurantPersistencePort;
 import com.foodcourt.hub.domain.port.spi.IUserVerificationPort;
+import com.foodcourt.hub.domain.usecase.restaurant.CreateRestaurantUseCase;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

@@ -1,4 +1,4 @@
-package com.foodcourt.hub.domain.usecase;
+package com.foodcourt.hub.domain.usecase.dish;
 
 import com.foodcourt.hub.domain.exception.DishNotFoundException;
 import com.foodcourt.hub.domain.exception.InvalidPermissionException;

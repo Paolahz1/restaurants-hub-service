@@ -8,6 +8,7 @@ import com.foodcourt.hub.domain.model.OrderStatus;
 import com.foodcourt.hub.domain.port.spi.IOrderPersistencePort;
 import com.foodcourt.hub.domain.port.spi.IValidationOrdersPort;
 import com.foodcourt.hub.domain.port.spi.IValidationUsersPort;
+import com.foodcourt.hub.domain.usecase.order.CreateOrderUseCase;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

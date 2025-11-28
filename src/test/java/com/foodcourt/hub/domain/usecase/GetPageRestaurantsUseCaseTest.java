@@ -1,8 +1,8 @@
 package com.foodcourt.hub.domain.usecase;
 
-import com.foodcourt.hub.application.dto.GetPageRestaurantsResponse;
 import com.foodcourt.hub.domain.model.Restaurant;
 import com.foodcourt.hub.domain.port.spi.IRestaurantPersistencePort;
+import com.foodcourt.hub.domain.usecase.restaurant.GetPageRestaurantsUseCase;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

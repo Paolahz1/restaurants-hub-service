@@ -1,7 +1,7 @@
-package com.foodcourt.hub.application.mapper;
+package com.foodcourt.hub.application.mapper.restaurant;
 
-import com.foodcourt.hub.application.dto.CreateRestaurantCommand;
-import com.foodcourt.hub.application.dto.CreateRestaurantResponse;
+import com.foodcourt.hub.application.dto.restaurant.CreateRestaurantCommand;
+import com.foodcourt.hub.application.dto.restaurant.CreateRestaurantResponse;
 import com.foodcourt.hub.domain.model.Restaurant;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

@@ -1,10 +1,10 @@
 package com.foodcourt.hub.application.handler;
 
-import com.foodcourt.hub.application.dto.CreateRestaurantCommand;
-import com.foodcourt.hub.application.dto.CreateRestaurantResponse;
-import com.foodcourt.hub.application.dto.GetPageRestaurantsResponse;
-import com.foodcourt.hub.application.mapper.IPageRestaurantMapper;
-import com.foodcourt.hub.application.mapper.IRestaurantMapper;
+import com.foodcourt.hub.application.dto.restaurant.CreateRestaurantCommand;
+import com.foodcourt.hub.application.dto.restaurant.CreateRestaurantResponse;
+import com.foodcourt.hub.application.dto.restaurant.GetPageRestaurantsResponse;
+import com.foodcourt.hub.application.mapper.restaurant.IPageRestaurantMapper;
+import com.foodcourt.hub.application.mapper.restaurant.IRestaurantMapper;
 import com.foodcourt.hub.domain.model.Restaurant;
 import com.foodcourt.hub.domain.port.api.restaurant.ICreateRestaurantServicePort;
 import com.foodcourt.hub.domain.port.api.restaurant.IGetPageRestaurantsServicePort;

@@ -1,8 +1,8 @@
 package com.foodcourt.hub.infrastructure.input.rest;
 
-import com.foodcourt.hub.application.dto.CreateRestaurantCommand;
-import com.foodcourt.hub.application.dto.CreateRestaurantResponse;
-import com.foodcourt.hub.application.dto.GetPageRestaurantsResponse;
+import com.foodcourt.hub.application.dto.restaurant.CreateRestaurantCommand;
+import com.foodcourt.hub.application.dto.restaurant.CreateRestaurantResponse;
+import com.foodcourt.hub.application.dto.restaurant.GetPageRestaurantsResponse;
 import com.foodcourt.hub.application.handler.IRestaurantHandler;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

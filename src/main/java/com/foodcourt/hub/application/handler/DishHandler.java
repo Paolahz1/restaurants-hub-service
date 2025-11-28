@@ -1,10 +1,11 @@
 package com.foodcourt.hub.application.handler;
 
-import com.foodcourt.hub.application.dto.*;
-import com.foodcourt.hub.application.mapper.ICreateDishCommandMapper;
-import com.foodcourt.hub.application.mapper.IPageDishesMapper;
+import com.foodcourt.hub.application.dto.dish.*;
+import com.foodcourt.hub.application.mapper.dish.ICreateDishCommandMapper;
+import com.foodcourt.hub.application.mapper.dish.IPageDishesMapper;
 import com.foodcourt.hub.domain.model.Category;
 import com.foodcourt.hub.domain.model.Dish;
+import com.foodcourt.hub.domain.model.PageModel;
 import com.foodcourt.hub.domain.port.api.dish.ICreateDishServicePort;
 import com.foodcourt.hub.domain.port.api.dish.IGetPageDishesServicePort;
 import com.foodcourt.hub.domain.port.api.dish.IUpdateDishServicePort;
@@ -50,7 +51,7 @@ public class DishHandler implements IDishHandler{
     public GetPageDishesResponse getDishes(GetDishesCommand command) {
 
         Category category = pageDishesMapper.map(command.getCategory());
-        Page<Dish> pageDish = getPageDishesServicePort.getPage(command.getPage(), command.getSize(), command.getRestaurantId(), category);
+        PageModel<Dish> pageDish = getPageDishesServicePort.getPage(command.getPage(), command.getSize(), command.getRestaurantId(), category);
         return pageDishesMapper.toResponse(pageDish);
 
     }

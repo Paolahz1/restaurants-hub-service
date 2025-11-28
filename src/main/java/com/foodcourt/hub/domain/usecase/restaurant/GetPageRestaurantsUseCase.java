@@ -1,4 +1,4 @@
-package com.foodcourt.hub.domain.usecase;
+package com.foodcourt.hub.domain.usecase.restaurant;
 
 import com.foodcourt.hub.domain.model.Restaurant;
 
@@ -16,6 +16,7 @@ public class GetPageRestaurantsUseCase implements IGetPageRestaurantsServicePort
 
     @Override
     public Page<Restaurant> getPage(int page, int size) {
+
         return persistencePort.getRestaurants(page, size);
     }
 }

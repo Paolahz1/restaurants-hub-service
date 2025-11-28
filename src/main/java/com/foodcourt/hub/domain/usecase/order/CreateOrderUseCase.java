@@ -1,4 +1,4 @@
-package com.foodcourt.hub.domain.usecase;
+package com.foodcourt.hub.domain.usecase.order;
 import com.foodcourt.hub.domain.exception.DishesNotFromSameRestaurant;
 import com.foodcourt.hub.domain.exception.HasPendingOrdersException;
 import com.foodcourt.hub.domain.model.Order;
