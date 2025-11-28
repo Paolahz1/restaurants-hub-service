@@ -16,6 +16,7 @@ public class GetPageDishesUseCase implements IGetPageDishesServicePort {
 
     @Override
     public Page<Dish> getPage(int page, int size, long restaurantId, Category category) {
+
         return persistencePort.getPageFromDb(page, size, restaurantId, category);
     }
 

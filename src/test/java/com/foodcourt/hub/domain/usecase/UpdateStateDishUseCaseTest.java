@@ -4,7 +4,7 @@ import com.foodcourt.hub.domain.exception.DishNotFoundException;
 import com.foodcourt.hub.domain.exception.InvalidPermissionException;
 import com.foodcourt.hub.domain.model.Dish;
 import com.foodcourt.hub.domain.port.spi.IDishPersistencePort;
-import com.foodcourt.hub.domain.port.spi.IValidationPort;
+import com.foodcourt.hub.domain.port.spi.IValidationUsersPort;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -21,7 +21,7 @@ class UpdateStateDishUseCaseTest {
     IDishPersistencePort persistencePort;
 
     @Mock
-    IValidationPort validationPort;
+    IValidationUsersPort validationPort;
 
     @InjectMocks
     UpdateStateDishUseCase useCase;

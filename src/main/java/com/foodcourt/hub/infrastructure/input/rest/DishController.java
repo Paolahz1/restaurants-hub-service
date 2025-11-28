@@ -2,8 +2,8 @@ package com.foodcourt.hub.infrastructure.input.rest;
 
 import com.foodcourt.hub.application.dto.*;
 import com.foodcourt.hub.application.handler.IDishHandler;
-import com.foodcourt.hub.domain.model.Category;
 import com.foodcourt.hub.infrastructure.security.UserPrincipal;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,21 +53,9 @@ public class DishController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping
-    public  ResponseEntity<GetPageDishesResponse> getPageDishes(
-            @RequestParam int page,
-            @RequestParam int size,
-            @RequestParam long restaurantId,
-            @RequestParam(required = false) String category
+    @PostMapping("search")
+    public  ResponseEntity<GetPageDishesResponse> getPageDishes( @Valid @RequestBody GetDishesCommand command
     ){
-
-        GetDishesCommand command = GetDishesCommand.builder()
-                .page(page)
-                .size(size)
-                .restaurantId(restaurantId)
-                .category(category)
-                .build();
-
         GetPageDishesResponse response = handler.getDishes(command);
         return ResponseEntity.ok(response);
     }

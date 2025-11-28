@@ -6,7 +6,7 @@ import com.foodcourt.hub.domain.port.api.dish.IUpdateDishServicePort;
 import com.foodcourt.hub.domain.port.api.dish.IUpdateStateDishServicePort;
 import com.foodcourt.hub.domain.port.spi.IDishPersistencePort;
 import com.foodcourt.hub.domain.port.spi.IRestaurantPersistencePort;
-import com.foodcourt.hub.domain.port.spi.IValidationPort;
+import com.foodcourt.hub.domain.port.spi.IValidationUsersPort;
 import com.foodcourt.hub.domain.usecase.CreateDishUseCase;
 import com.foodcourt.hub.domain.usecase.GetPageDishesUseCase;
 import com.foodcourt.hub.domain.usecase.UpdateDishUseCase;
@@ -21,7 +21,7 @@ public class DishBeanConfiguration {
 
     private final IDishPersistencePort dishPersistencePort;
     private final IRestaurantPersistencePort restaurantPersistencePort;
-    private final IValidationPort validationPort;
+    private final IValidationUsersPort validationPort;
 
     @Bean
     public ICreateDishServicePort createDishServicePort(){
