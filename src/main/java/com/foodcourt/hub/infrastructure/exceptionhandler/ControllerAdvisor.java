@@ -58,10 +58,22 @@ public class ControllerAdvisor {
                 .body(Collections.singletonMap(MESSAGE, ExceptionResponse.INVALID_PERMISSION.getMessage()));
     }
 
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<Map<String, String>> handleInvalidCategory(IllegalArgumentException ex) {
+    @ExceptionHandler(InvalidDishCategoryException.class)
+    public ResponseEntity<Map<String, String>> handleInvalidCategory(InvalidDishCategoryException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(Collections.singletonMap(MESSAGE, ExceptionResponse.INVALID_CATEGOY.getMessage()));
+                .body(Collections.singletonMap(MESSAGE, ExceptionResponse.INVALID_CATEGORY.getMessage()));
+    }
+
+    @ExceptionHandler(HasPendingOrdersException.class)
+    public ResponseEntity<Map<String, String>> handleClientHasPendingOrders(HasPendingOrdersException ex){
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(Collections.singletonMap(MESSAGE, ExceptionResponse.HAS_PENDING_ORDERS.getMessage()));
+    }
+
+    @ExceptionHandler(DishesNotFromSameRestaurant.class)
+    public ResponseEntity<Map<String, String>> handleDishesNotFromSameRestaurant(DishesNotFromSameRestaurant ex){
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(Collections.singletonMap(MESSAGE, ExceptionResponse.DISHES_NOT_SAME_RESTAURANT.getMessage()));
     }
 
 }

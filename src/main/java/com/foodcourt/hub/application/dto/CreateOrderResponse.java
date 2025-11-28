@@ -9,12 +9,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateDishCommand {
+public class CreateOrderResponse {
 
-    private String name;
-    private Long price;
-    private String description;
-    private String urlImage;
-    private String category;
+    private long id;
+    private String status;
     private Long restaurantId;
+    private Long clientId;
+
 }
