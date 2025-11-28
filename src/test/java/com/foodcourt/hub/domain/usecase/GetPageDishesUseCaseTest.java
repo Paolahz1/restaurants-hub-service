@@ -2,7 +2,9 @@ package com.foodcourt.hub.domain.usecase;
 
 import com.foodcourt.hub.domain.model.Category;
 import com.foodcourt.hub.domain.model.Dish;
+import com.foodcourt.hub.domain.model.PageModel;
 import com.foodcourt.hub.domain.port.spi.IDishPersistencePort;
+import com.foodcourt.hub.domain.usecase.dish.GetPageDishesUseCase;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -43,15 +45,26 @@ class GetPageDishesUseCaseTest {
                 .urlImage("image")
                 .build();
         List<Dish> dishList = List.of(d1);
-        Page<Dish> mockPage = new PageImpl<>(dishList, PageRequest.of(page, size), 10);
+
+        PageModel<Dish> mockPage = PageModel.<Dish>builder()
+                .content(dishList)
+                .page(0)
+                .size(1)
+                .totalElements(10)
+                .totalPages(10)
+                .first(true)
+                .last(false)
+                .build();
+
+
         when(persistencePort.getPageFromDb(page, size, restaurantId, category)).thenReturn(mockPage);
 
-        Page<Dish> result = useCase.getPage(page, size, restaurantId, category);
+        PageModel<Dish> result = useCase.getPage(page, size, restaurantId, category);
 
         assertEquals(1, result.getContent().size());
         assertEquals("Papitas", result.getContent().get(0).getName());
         assertEquals("image", result.getContent().get(0).getUrlImage());
-        assertEquals(0, result.getNumber());
+        assertEquals(0, result.getPage());
         assertEquals(10, result.getTotalPages());
 
     }

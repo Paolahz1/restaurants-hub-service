@@ -1,7 +1,6 @@
-package com.foodcourt.hub.domain.usecase;
+package com.foodcourt.hub.domain.usecase.dish;
 
 import com.foodcourt.hub.domain.exception.InvalidPermissionException;
-import com.foodcourt.hub.domain.model.Category;
 import com.foodcourt.hub.domain.model.Dish;
 import com.foodcourt.hub.domain.port.api.dish.ICreateDishServicePort;
 import com.foodcourt.hub.domain.port.spi.IDishPersistencePort;

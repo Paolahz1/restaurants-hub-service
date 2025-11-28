@@ -1,7 +1,7 @@
-package com.foodcourt.hub.application.mapper;
+package com.foodcourt.hub.application.mapper.restaurant;
 
- import com.foodcourt.hub.application.dto.GetPageRestaurantsResponse;
- import com.foodcourt.hub.application.dto.RestaurantSummaryResponse;
+ import com.foodcourt.hub.application.dto.restaurant.GetPageRestaurantsResponse;
+ import com.foodcourt.hub.application.dto.restaurant.RestaurantSummaryResponse;
  import com.foodcourt.hub.domain.model.Restaurant;
 import org.mapstruct.Mapper;
  import org.springframework.data.domain.Page;

@@ -4,6 +4,7 @@ import com.foodcourt.hub.domain.exception.InvalidPermissionException;
 import com.foodcourt.hub.domain.model.Dish;
 import com.foodcourt.hub.domain.port.spi.IDishPersistencePort;
 import com.foodcourt.hub.domain.port.spi.IRestaurantPersistencePort;
+import com.foodcourt.hub.domain.usecase.dish.CreateDishUseCase;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

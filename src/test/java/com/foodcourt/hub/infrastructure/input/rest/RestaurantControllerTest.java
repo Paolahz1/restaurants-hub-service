@@ -1,10 +1,10 @@
 package com.foodcourt.hub.infrastructure.input.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.foodcourt.hub.application.dto.CreateRestaurantCommand;
-import com.foodcourt.hub.application.dto.CreateRestaurantResponse;
-import com.foodcourt.hub.application.dto.GetPageRestaurantsResponse;
-import com.foodcourt.hub.application.dto.RestaurantSummaryResponse;
+import com.foodcourt.hub.application.dto.restaurant.CreateRestaurantCommand;
+import com.foodcourt.hub.application.dto.restaurant.CreateRestaurantResponse;
+import com.foodcourt.hub.application.dto.restaurant.GetPageRestaurantsResponse;
+import com.foodcourt.hub.application.dto.restaurant.RestaurantSummaryResponse;
 import com.foodcourt.hub.application.handler.IRestaurantHandler;
 import com.foodcourt.hub.domain.exception.InvalidNitFormatException;
 import com.foodcourt.hub.domain.exception.NitAlreadyExistsException;

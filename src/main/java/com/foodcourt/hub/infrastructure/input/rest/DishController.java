@@ -1,6 +1,6 @@
 package com.foodcourt.hub.infrastructure.input.rest;
 
-import com.foodcourt.hub.application.dto.*;
+import com.foodcourt.hub.application.dto.dish.*;
 import com.foodcourt.hub.application.handler.IDishHandler;
 import com.foodcourt.hub.infrastructure.security.UserPrincipal;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,7 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/hub-service/dish/")
+@RequestMapping("/hub-service/dish")
 @RequiredArgsConstructor
 @Tag(name = "Dishes", description = "Dish management endpoints")
 public class DishController {
@@ -42,7 +42,7 @@ public class DishController {
     @Operation(summary = "Update dish information", description = "Allows a restaurant owner to update description or price of a dish.")
     @ApiResponse(responseCode = "200", description = "Dish updated")
     @ApiResponse(responseCode = "403", description = "Forbidden - Only owners of the given restaurant can update dishes")
-    @PatchMapping
+    @PatchMapping("/")
     @PreAuthorize("hasRole('OWNER')")
     public ResponseEntity<Void> updateDish(@RequestBody UpdateDishCommand command) {
 
@@ -58,7 +58,7 @@ public class DishController {
     @Operation(summary = "Update dish status", description = "Enable or disable a dish")
     @ApiResponse(responseCode = "200", description = "Status updated")
     @ApiResponse(responseCode = "403", description = "Forbidden - Only owners can update status")
-    @PatchMapping("status")
+    @PatchMapping("/status")
     @PreAuthorize("hasRole('OWNER')")
     public ResponseEntity<Void> updateStatusDish(@RequestBody UpdateStatusDishCommand command) {
 
@@ -73,7 +73,7 @@ public class DishController {
 
     @Operation(summary = "Search dishes with filters", description = "Returns paginated dishes filtered by restaurant or category")
     @ApiResponse(responseCode = "200", description = "Dishes retrieved successfully")
-    @PostMapping("search")
+    @PostMapping("/search")
     public ResponseEntity<GetPageDishesResponse> getPageDishes(@Valid @RequestBody GetDishesCommand command) {
         GetPageDishesResponse response = handler.getDishes(command);
         return ResponseEntity.ok(response);

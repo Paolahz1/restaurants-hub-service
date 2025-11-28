@@ -1,8 +1,8 @@
 package com.foodcourt.hub.application.handler;
 
-import com.foodcourt.hub.application.dto.CreateRestaurantCommand;
-import com.foodcourt.hub.application.dto.CreateRestaurantResponse;
-import com.foodcourt.hub.application.dto.GetPageRestaurantsResponse;
+import com.foodcourt.hub.application.dto.restaurant.CreateRestaurantCommand;
+import com.foodcourt.hub.application.dto.restaurant.CreateRestaurantResponse;
+import com.foodcourt.hub.application.dto.restaurant.GetPageRestaurantsResponse;
 
 public interface IRestaurantHandler {
 

@@ -1,4 +1,4 @@
-package com.foodcourt.hub.domain.usecase;
+package com.foodcourt.hub.domain.usecase.restaurant;
 
 import com.foodcourt.hub.domain.exception.*;
 import com.foodcourt.hub.domain.model.Restaurant;

@@ -4,7 +4,7 @@ import com.foodcourt.hub.domain.port.api.order.ICreateOrderServicePort;
 import com.foodcourt.hub.domain.port.spi.IOrderPersistencePort;
 import com.foodcourt.hub.domain.port.spi.IValidationOrdersPort;
 import com.foodcourt.hub.domain.port.spi.IValidationUsersPort;
-import com.foodcourt.hub.domain.usecase.CreateOrderUseCase;
+import com.foodcourt.hub.domain.usecase.order.CreateOrderUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

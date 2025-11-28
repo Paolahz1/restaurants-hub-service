@@ -9,7 +9,7 @@ import org.mapstruct.Mapping;
 public interface IOrderItemEntityMapper {
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "order", ignore = true) // 👈 importante para evitar recursión y conflictos
+    @Mapping(target = "order", ignore = true)
     OrderItemEntity toEntity(OrderItem orderItem);
 
     OrderItem toDomain(OrderItemEntity orderItemEntity);

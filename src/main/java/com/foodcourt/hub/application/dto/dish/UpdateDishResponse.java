@@ -1,4 +1,4 @@
-package com.foodcourt.hub.application.dto;
+package com.foodcourt.hub.application.dto.dish;
 import lombok.Builder;
 import lombok.Data;
 

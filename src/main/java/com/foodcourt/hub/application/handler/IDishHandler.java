@@ -1,6 +1,6 @@
 package com.foodcourt.hub.application.handler;
 
-import com.foodcourt.hub.application.dto.*;
+import com.foodcourt.hub.application.dto.dish.*;
 
 
 public interface IDishHandler {

@@ -1,7 +1,7 @@
-package com.foodcourt.hub.application.mapper;
+package com.foodcourt.hub.application.mapper.order;
 
-import com.foodcourt.hub.application.dto.CreateOrderCommand;
-import com.foodcourt.hub.application.dto.CreateOrderResponse;
+import com.foodcourt.hub.application.dto.order.CreateOrderCommand;
+import com.foodcourt.hub.application.dto.order.CreateOrderResponse;
 import com.foodcourt.hub.domain.model.Order;
 import org.mapstruct.Mapper;
 
