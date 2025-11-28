@@ -5,15 +5,15 @@ import com.foodcourt.hub.domain.exception.InvalidPermissionException;
 import com.foodcourt.hub.domain.model.Dish;
 import com.foodcourt.hub.domain.port.api.dish.IUpdateDishServicePort;
 import com.foodcourt.hub.domain.port.spi.IDishPersistencePort;
-import com.foodcourt.hub.domain.port.spi.IValidationPort;
+import com.foodcourt.hub.domain.port.spi.IValidationUsersPort;
 
 
 public class UpdateDishUseCase implements IUpdateDishServicePort {
 
     private  final IDishPersistencePort persistencePort;
-    private  final IValidationPort validationPort;
+    private  final IValidationUsersPort validationPort;
 
-    public UpdateDishUseCase(IDishPersistencePort persistencePort, IValidationPort validationPort) {
+    public UpdateDishUseCase(IDishPersistencePort persistencePort, IValidationUsersPort validationPort) {
         this.persistencePort = persistencePort;
         this.validationPort = validationPort;
     }
