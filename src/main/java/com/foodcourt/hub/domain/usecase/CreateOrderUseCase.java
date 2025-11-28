@@ -1,5 +1,4 @@
 package com.foodcourt.hub.domain.usecase;
-
 import com.foodcourt.hub.domain.exception.DishesNotFromSameRestaurant;
 import com.foodcourt.hub.domain.exception.HasPendingOrdersException;
 import com.foodcourt.hub.domain.model.Order;
@@ -26,6 +25,10 @@ public class CreateOrderUseCase implements ICreateOrderServicePort {
     @Override
     public Order createOrder(Order order, long clientId) {
 
+        if (order.getItems() == null || order.getItems().isEmpty()) {
+            throw new IllegalArgumentException("The order must contain at least one dish.");
+        }
+
         boolean hasPendingOrders = validationUsersPort.hasPendingOrders(clientId);
         if (hasPendingOrders) {
             throw new HasPendingOrdersException();
@@ -36,9 +39,7 @@ public class CreateOrderUseCase implements ICreateOrderServicePort {
             throw new DishesNotFromSameRestaurant();
         }
 
-        if (order.getItems() == null || order.getItems().isEmpty()) {
-            throw new IllegalArgumentException("The order must contain at least one dish.");
-        }
+
 
         order.setClientId(clientId);
         order.setCreatedAt(LocalDateTime.now());
