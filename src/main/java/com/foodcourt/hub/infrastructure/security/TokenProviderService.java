@@ -24,7 +24,7 @@ public class TokenProviderService {
         AuthCommand command = new AuthCommand("hub-service@system.local", "1234");
 
         AuthResponse authResponse = webClient.post()
-                .uri("users/auth/login")
+                .uri("/users/auth/login")
                 .bodyValue(command)
                 .retrieve()
                 .bodyToMono(AuthResponse.class)

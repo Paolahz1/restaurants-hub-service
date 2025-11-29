@@ -4,17 +4,17 @@ import com.foodcourt.hub.domain.exception.*;
 import com.foodcourt.hub.domain.model.Restaurant;
 import com.foodcourt.hub.domain.port.api.restaurant.ICreateRestaurantServicePort;
 import com.foodcourt.hub.domain.port.spi.IRestaurantPersistencePort;
-import com.foodcourt.hub.domain.port.spi.IUserVerificationPort;
+import com.foodcourt.hub.domain.port.spi.IUserInfoPort;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.transaction.TransactionSystemException;
 
 public class CreateRestaurantUseCase implements ICreateRestaurantServicePort {
 
     private final IRestaurantPersistencePort restaurantPersistencePort;
-    private final IUserVerificationPort userVerificationPort;
+    private final IUserInfoPort userVerificationPort;
 
 
-    public CreateRestaurantUseCase(IRestaurantPersistencePort persistencePort, IUserVerificationPort userVerificationPort) {
+    public CreateRestaurantUseCase(IRestaurantPersistencePort persistencePort, IUserInfoPort userVerificationPort) {
         this.restaurantPersistencePort = persistencePort;
         this.userVerificationPort = userVerificationPort;
     }
