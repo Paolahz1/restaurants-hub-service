@@ -2,9 +2,9 @@ package com.foodcourt.hub.infrastructure.exceptionhandler;
 
 import com.foodcourt.hub.domain.exception.*;
 import com.foodcourt.hub.domain.exception.InvalidPhoneNumberException;
+import com.foodcourt.hub.domain.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -75,5 +75,18 @@ public class ControllerAdvisor {
         return ResponseEntity.status(HttpStatus.CONFLICT)
                 .body(Collections.singletonMap(MESSAGE, ExceptionResponse.DISHES_NOT_SAME_RESTAURANT.getMessage()));
     }
+
+    @ExceptionHandler(NotFoundException.class)
+    public  ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException ex){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getError());
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    public  ResponseEntity<ErrorResponse> handleBadRequestException(BadRequestException ex){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getError());
+    }
+
+
+
 
 }

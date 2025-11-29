@@ -9,9 +9,9 @@ public enum ExceptionResponse {
     DATABASE_ERROR("There was an error accessing the database"),
     INVALID_PERMISSION("You do not have the permission to make this request"),
     INVALID_CATEGORY("Invalid dish category"),
+    INVALID_STATUS("Invalid order status"),
     HAS_PENDING_ORDERS("The client has pending orders"),
     DISHES_NOT_SAME_RESTAURANT("All dishes in the order must be from the same restaurant");
-
     private final String message;
 
     ExceptionResponse(String message) {
