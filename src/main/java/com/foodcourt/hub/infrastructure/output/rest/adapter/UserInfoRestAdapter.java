@@ -1,8 +1,8 @@
 package com.foodcourt.hub.infrastructure.output.rest.adapter;
 
-import com.foodcourt.hub.domain.port.spi.IUserVerificationPort;
+import com.foodcourt.hub.domain.port.spi.IUserInfoPort;
+import com.foodcourt.hub.infrastructure.output.rest.dto.EmployeeDetailsResponse;
 import com.foodcourt.hub.infrastructure.output.rest.dto.RoleResponse;
-import com.foodcourt.hub.infrastructure.output.rest.dto.UserResponse;
 import com.foodcourt.hub.infrastructure.security.TokenProviderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -10,7 +10,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @Component
 @RequiredArgsConstructor
-public class UserVerificationRestAdapter implements IUserVerificationPort {
+public class UserInfoRestAdapter implements IUserInfoPort {
 
     private final WebClient webClient;
     private final TokenProviderService tokenProvider;
@@ -21,7 +21,7 @@ public class UserVerificationRestAdapter implements IUserVerificationPort {
         String token = tokenProvider.getToken();
 
         RoleResponse response = webClient.get()
-                .uri("users/info/role/{id}", id)
+                .uri("/users/info/role/{id}", id)
                 .header("Authorization", "Bearer " + token )
                 .retrieve()
                 .bodyToMono(RoleResponse.class)
@@ -31,13 +31,16 @@ public class UserVerificationRestAdapter implements IUserVerificationPort {
     }
 
     @Override
-    public UserResponse getUser(Long id) {
-        return webClient.get()
-                .uri("users/auth/{id}", id)
+    public long getEmployeeDetails(Long id) {
+        String token = tokenProvider.getToken();
+        System.out.print("EMPLOYEEEEEEEEEEEEEEEE" + id);
+        EmployeeDetailsResponse response = webClient.get()
+                .uri("/users/info/employee/{id}", id)
+                .header("Authorization", "Bearer " + token )
                 .retrieve()
-                .bodyToMono(UserResponse.class)
+                .bodyToMono(EmployeeDetailsResponse.class)
                 .block();
-
+        return response.getRestaurantId();
     }
 
 
