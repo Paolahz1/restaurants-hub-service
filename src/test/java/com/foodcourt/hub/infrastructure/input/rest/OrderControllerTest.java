@@ -19,7 +19,9 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Collections;
 
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -65,7 +67,25 @@ class OrderControllerTest {
                 .andExpect(jsonPath("$.id").value(1l))
                 .andExpect(jsonPath("$.status").value("PENDING"))
                 .andExpect(jsonPath("$.restaurantId").value(1l));
-
     }
 
+    @Test
+    void ShouldAssignOrder() throws Exception{
+        Long orderId = 1l;
+
+        UserPrincipal principal = new UserPrincipal(2L, "correo@gmail.com", Role.EMPLOYEE);
+        SecurityContextHolder.getContext().setAuthentication(
+                new UsernamePasswordAuthenticationToken(
+                        principal, null, Collections.singleton(() -> "ROLE_" + principal.role())
+                )
+        );
+
+        mockMvc.perform(
+                patch("/hub-service/order/{orderId}/assign", orderId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(orderId))
+        ).andExpect(status().isOk());
+
+        verify(handler).assignOrder(orderId, principal.id());
+    }
 }

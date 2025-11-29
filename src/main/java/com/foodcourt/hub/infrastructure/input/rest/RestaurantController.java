@@ -21,21 +21,26 @@ public class RestaurantController {
 
     private final IRestaurantHandler handler;
 
+    // -------------
+
     @Operation(summary = "Create a new restaurant", description = "Creates a restaurant. Requires ADMIN role")
     @ApiResponse(responseCode = "201", description = "Restaurant created successfully")
     @ApiResponse(responseCode = "400", description = "Invalid input data")
     @ApiResponse(responseCode = "403", description = "Forbidden - Not authorized")
+
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<CreateRestaurantResponse> saveRestaurant(
-            @RequestBody CreateRestaurantCommand command
-    ) {
+    public ResponseEntity<CreateRestaurantResponse> saveRestaurant(@RequestBody CreateRestaurantCommand command) {
         CreateRestaurantResponse response = handler.createRestaurant(command);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+
+    // --------- -
+
     @Operation(summary = "Get a paginated list of restaurants", description = "Returns restaurants paginated by page and size.")
     @ApiResponse(responseCode = "200", description = "Page fetched successfully")
+
     @GetMapping("page/{page}/size/{size}")
     public ResponseEntity<GetPageRestaurantsResponse> getPageRestaurants(
             @PathVariable int page,

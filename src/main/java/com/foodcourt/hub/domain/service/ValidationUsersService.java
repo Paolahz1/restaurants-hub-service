@@ -4,23 +4,22 @@ import com.foodcourt.hub.domain.model.Dish;
 import com.foodcourt.hub.domain.model.Order;
 import com.foodcourt.hub.domain.model.OrderStatus;
 import com.foodcourt.hub.domain.model.Restaurant;
-import com.foodcourt.hub.domain.port.spi.IDishPersistencePort;
-import com.foodcourt.hub.domain.port.spi.IOrderPersistencePort;
-import com.foodcourt.hub.domain.port.spi.IRestaurantPersistencePort;
-import com.foodcourt.hub.domain.port.spi.IValidationUsersPort;
-
+import com.foodcourt.hub.domain.port.spi.*;
 
 import java.util.List;
 
-public class ValidationUsersUsersService implements IValidationUsersPort {
+public class ValidationUsersService implements IValidationUsersPort {
+
     private final IDishPersistencePort dishPersistencePort;
     private final IRestaurantPersistencePort restaurantPersistencePort;
     private final IOrderPersistencePort orderPersistencePort;
+    private final IUserInfoPort userInfoPort;
 
-    public ValidationUsersUsersService(IDishPersistencePort dishPersistencePort, IRestaurantPersistencePort restaurantPersistencePort, IOrderPersistencePort orderPersistencePort) {
+    public ValidationUsersService(IDishPersistencePort dishPersistencePort, IRestaurantPersistencePort restaurantPersistencePort, IOrderPersistencePort orderPersistencePort, IUserInfoPort userInfoPort) {
         this.dishPersistencePort = dishPersistencePort;
         this.restaurantPersistencePort = restaurantPersistencePort;
         this.orderPersistencePort = orderPersistencePort;
+        this.userInfoPort = userInfoPort;
     }
 
     @Override
@@ -38,8 +37,7 @@ public class ValidationUsersUsersService implements IValidationUsersPort {
 
 
     @Override
-    public boolean hasPendingOrders(long clientId) {
-
+    public boolean clientHasPendingOrders(long clientId) {
         List<Order>  clientOrders = orderPersistencePort.findByClientId(clientId);
         boolean hasPendingOrders = false;
 
@@ -51,11 +49,16 @@ public class ValidationUsersUsersService implements IValidationUsersPort {
                 break;
             }
         }
-
         return hasPendingOrders;
     }
 
+    @Override
+    public boolean validateEmployeeBelongsToRestaurant(long restaurantId, long employeeId) {
 
+        long realRestaurantId = userInfoPort.getEmployeeDetails(employeeId);
+
+        return realRestaurantId == restaurantId;
+    }
 
 
 }

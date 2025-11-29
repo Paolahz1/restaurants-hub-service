@@ -86,7 +86,10 @@ public class ControllerAdvisor {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getError());
     }
 
-
+    @ExceptionHandler(ForbiddenException.class)
+    public  ResponseEntity<ErrorResponse> handleForbidden(ForbiddenException ex){
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ex.getError());
+    }
 
 
 }

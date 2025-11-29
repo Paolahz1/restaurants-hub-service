@@ -11,7 +11,6 @@ public class CreateDishUseCase implements ICreateDishServicePort {
     private final IDishPersistencePort dishPersistencePort;
     private final IRestaurantPersistencePort restaurantPersistencePort;
 
-
     public CreateDishUseCase(IDishPersistencePort dishPersistencePort, IRestaurantPersistencePort restaurantPersistencePort ) {
         this.dishPersistencePort = dishPersistencePort;
         this.restaurantPersistencePort = restaurantPersistencePort;
@@ -27,7 +26,7 @@ public class CreateDishUseCase implements ICreateDishServicePort {
            throw new InvalidPermissionException();
        }
 
-
+        dish.setStatus(true);
         dishPersistencePort.saveDish(dish);
 
     }

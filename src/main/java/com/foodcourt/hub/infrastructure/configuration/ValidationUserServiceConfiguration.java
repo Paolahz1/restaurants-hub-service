@@ -1,10 +1,7 @@
 package com.foodcourt.hub.infrastructure.configuration;
 
-import com.foodcourt.hub.domain.port.spi.IDishPersistencePort;
-import com.foodcourt.hub.domain.port.spi.IOrderPersistencePort;
-import com.foodcourt.hub.domain.port.spi.IRestaurantPersistencePort;
-import com.foodcourt.hub.domain.port.spi.IValidationUsersPort;
-import com.foodcourt.hub.domain.service.ValidationUsersUsersService;
+import com.foodcourt.hub.domain.port.spi.*;
+import com.foodcourt.hub.domain.service.ValidationUsersService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,9 +13,10 @@ public class ValidationUserServiceConfiguration {
     private final IDishPersistencePort dishPersistencePort;
     private final IRestaurantPersistencePort restaurantPersistencePort;
     private final IOrderPersistencePort orderPersistencePort;
+    private final IUserInfoPort userInfoPort;
 
     @Bean
     public IValidationUsersPort validationPort(){
-        return new ValidationUsersUsersService(dishPersistencePort, restaurantPersistencePort, orderPersistencePort);
+        return new ValidationUsersService(dishPersistencePort, restaurantPersistencePort, orderPersistencePort, userInfoPort);
     }
 }

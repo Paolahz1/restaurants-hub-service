@@ -35,6 +35,12 @@ public class OrderEntity {
 
     private LocalDateTime updatedAt;
 
+    @Column
+    private Long assignedEmployeeId;
+
+    @Column
+    private String securityPin;
+
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItemEntity> items;
 
