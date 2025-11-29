@@ -5,7 +5,7 @@ import com.foodcourt.hub.domain.exception.InvalidPhoneNumberException;
 import com.foodcourt.hub.domain.exception.UserIsNotOwnerException;
 import com.foodcourt.hub.domain.model.Restaurant;
 import com.foodcourt.hub.domain.port.spi.IRestaurantPersistencePort;
-import com.foodcourt.hub.domain.port.spi.IUserVerificationPort;
+import com.foodcourt.hub.domain.port.spi.IUserInfoPort;
 import com.foodcourt.hub.domain.usecase.restaurant.CreateRestaurantUseCase;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,7 +24,7 @@ class CreateRestaurantUseCaseTest {
     @Mock
     IRestaurantPersistencePort persistencePort;
     @Mock
-    IUserVerificationPort verificationPort;
+    IUserInfoPort verificationPort;
 
     @InjectMocks
     CreateRestaurantUseCase useCase;
