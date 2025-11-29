@@ -10,10 +10,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,40 +29,30 @@ class GetPageDishesUseCaseTest {
         int page = 0;
         int size = 1;
         long restaurantId = 1L;
-
         Category category = Category.ENTRADA;
 
         Dish d1 = Dish.builder()
-                .name("Papitas")
-                .price(2000L)
-                .restaurantId(restaurantId)
-                .description("Gut")
-                .category(category)
-                .urlImage("image")
+                .name("Papitas").price(2000L).restaurantId(restaurantId)
+                .description("Gut").category(category).urlImage("image")
                 .build();
+
         List<Dish> dishList = List.of(d1);
 
         PageModel<Dish> mockPage = PageModel.<Dish>builder()
-                .content(dishList)
-                .page(0)
-                .size(1)
-                .totalElements(10)
-                .totalPages(10)
-                .first(true)
-                .last(false)
+                .content(dishList).page(0).size(1).totalElements(10)
+                .totalPages(10).first(true).last(false)
                 .build();
-
 
         when(persistencePort.getPageFromDb(page, size, restaurantId, category)).thenReturn(mockPage);
 
+
         PageModel<Dish> result = useCase.getPage(page, size, restaurantId, category);
+
 
         assertEquals(1, result.getContent().size());
         assertEquals("Papitas", result.getContent().get(0).getName());
         assertEquals("image", result.getContent().get(0).getUrlImage());
         assertEquals(0, result.getPage());
         assertEquals(10, result.getTotalPages());
-
     }
-
 }

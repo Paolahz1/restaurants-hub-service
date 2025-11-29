@@ -1,5 +1,6 @@
 package com.foodcourt.hub.domain.usecase.restaurant;
 
+import com.foodcourt.hub.domain.model.PageModel;
 import com.foodcourt.hub.domain.model.Restaurant;
 
 import com.foodcourt.hub.domain.port.api.restaurant.IGetPageRestaurantsServicePort;
@@ -15,7 +16,7 @@ public class GetPageRestaurantsUseCase implements IGetPageRestaurantsServicePort
     }
 
     @Override
-    public Page<Restaurant> getPage(int page, int size) {
+    public PageModel<Restaurant> getPage(int page, int size) {
 
         return persistencePort.getRestaurants(page, size);
     }

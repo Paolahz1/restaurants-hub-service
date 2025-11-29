@@ -8,7 +8,6 @@ import java.util.List;
 public class GetPageRestaurantsResponse {
 
     private List<RestaurantSummaryResponse> content;
-
     private int page;
     private int size;
     private long totalElements;
