@@ -1,5 +1,6 @@
 package com.foodcourt.hub.infrastructure.output.jpa.adapter;
 
+import com.foodcourt.hub.domain.model.PageModel;
 import com.foodcourt.hub.domain.model.Restaurant;
 import com.foodcourt.hub.domain.port.spi.IRestaurantPersistencePort;
 import com.foodcourt.hub.infrastructure.output.jpa.entity.RestaurantEntity;
@@ -11,6 +12,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -48,10 +51,12 @@ public class RestaurantJpaAdapter implements IRestaurantPersistencePort {
     }
 
     @Override
-    public Page<Restaurant> getRestaurants(int page, int size) {
+    public PageModel<Restaurant> getRestaurants(int page, int size) {
+
         Pageable pageable = PageRequest.of(page, size, Sort.by("name").ascending());
-        Page<RestaurantEntity> entities = repository.findAll(pageable); //Spring Data devuelve un Page<RestaurantEntity> automáticamente
-        return entities.map(mapper::toDomain);
+        Page<RestaurantEntity> entities = repository.findAll(pageable);
+
+        return mapper.toPageModel(entities);
     }
 
 
