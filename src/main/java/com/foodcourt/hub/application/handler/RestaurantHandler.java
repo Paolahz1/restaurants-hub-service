@@ -5,6 +5,7 @@ import com.foodcourt.hub.application.dto.restaurant.CreateRestaurantResponse;
 import com.foodcourt.hub.application.dto.restaurant.GetPageRestaurantsResponse;
 import com.foodcourt.hub.application.mapper.restaurant.IPageRestaurantMapper;
 import com.foodcourt.hub.application.mapper.restaurant.IRestaurantMapper;
+import com.foodcourt.hub.domain.model.PageModel;
 import com.foodcourt.hub.domain.model.Restaurant;
 import com.foodcourt.hub.domain.port.api.restaurant.ICreateRestaurantServicePort;
 import com.foodcourt.hub.domain.port.api.restaurant.IGetPageRestaurantsServicePort;
@@ -34,7 +35,7 @@ public class RestaurantHandler implements IRestaurantHandler{
 
     @Override
     public GetPageRestaurantsResponse getPageRestaurants(int page, int size) {
-        Page<Restaurant>  pageResponse = getPageRestaurantsServicePort.getPage(page, size);
+        PageModel<Restaurant> pageResponse = getPageRestaurantsServicePort.getPage(page, size);
         return pageRestaurantMapper.toResponse(pageResponse);
     }
 }
