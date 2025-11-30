@@ -1,14 +1,12 @@
 package com.foodcourt.hub.infrastructure.input.rest;
 
-import com.foodcourt.hub.application.dto.order.CreateOrderCommand;
-import com.foodcourt.hub.application.dto.order.CreateOrderResponse;
-import com.foodcourt.hub.application.dto.order.GetPageOrdersCommand;
-import com.foodcourt.hub.application.dto.order.GetPageOrdersResponse;
+import com.foodcourt.hub.application.dto.order.*;
 import com.foodcourt.hub.application.handler.IOrderHandler;
 import com.foodcourt.hub.infrastructure.security.UserPrincipal;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 public class OrderController {
 
     private final IOrderHandler handler;
-
 
     // CREATE
 
@@ -107,6 +104,19 @@ public class OrderController {
         handler.markOrderAsReady(orderId, employeeId);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
+
+    @PostMapping("/delivered")
+    @PreAuthorize("hasRole('EMPLOYEE')")
+    public ResponseEntity<Void> markOrderAsDelivered(@Valid  @RequestBody MarkOrderAsDeliveredCommand command) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserPrincipal userPrincipal = (UserPrincipal) auth.getPrincipal();
+        Long employeeId = userPrincipal.id();
+
+        handler.markOrderAsDelivered(command, employeeId);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
 
 }
 

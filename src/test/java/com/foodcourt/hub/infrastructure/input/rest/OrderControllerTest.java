@@ -1,8 +1,10 @@
 package com.foodcourt.hub.infrastructure.input.rest;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.foodcourt.hub.application.dto.order.CreateOrderCommand;
 import com.foodcourt.hub.application.dto.order.CreateOrderResponse;
+import com.foodcourt.hub.application.dto.order.MarkOrderAsDeliveredCommand;
 import com.foodcourt.hub.application.handler.IOrderHandler;
 import com.foodcourt.hub.domain.model.Role;
 import com.foodcourt.hub.infrastructure.security.SecurityTestConfig;
@@ -70,7 +72,7 @@ class OrderControllerTest {
     }
 
     @Test
-    void ShouldAssignOrder() throws Exception{
+    void shouldAssignOrder() throws Exception{
         Long orderId = 1l;
 
         UserPrincipal principal = new UserPrincipal(2L, "correo@gmail.com", Role.EMPLOYEE);
@@ -87,5 +89,28 @@ class OrderControllerTest {
         ).andExpect(status().isOk());
 
         verify(handler).assignOrder(orderId, principal.id());
+    }
+
+    @Test
+    void  shouldMarkOrderAsDelivered() throws Exception {
+
+        Long orderId = 1l;
+        MarkOrderAsDeliveredCommand command = MarkOrderAsDeliveredCommand.builder()
+                        .orderId(1l).pin("1234").build();
+
+        UserPrincipal principal = new UserPrincipal(2L, "correo@gmail.com", Role.EMPLOYEE);
+        SecurityContextHolder.getContext().setAuthentication(
+                new UsernamePasswordAuthenticationToken(
+                        principal, null, Collections.singleton(() -> "ROLE_" + principal.role())
+                )
+        );
+
+        mockMvc.perform(
+                post("/hub-service/order/delivered")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(command))
+        ).andExpect(status().isOk());
+
+        verify(handler).markOrderAsDelivered(command, principal.id());
     }
 }

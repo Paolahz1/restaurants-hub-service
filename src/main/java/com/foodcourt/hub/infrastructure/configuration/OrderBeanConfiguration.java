@@ -1,14 +1,8 @@
 package com.foodcourt.hub.infrastructure.configuration;
 
-import com.foodcourt.hub.domain.port.api.order.IAssignOrderServicePort;
-import com.foodcourt.hub.domain.port.api.order.ICreateOrderServicePort;
-import com.foodcourt.hub.domain.port.api.order.IGetPageOrdersServicePort;
-import com.foodcourt.hub.domain.port.api.order.IMarkOrderAsReadyServicePort;
+import com.foodcourt.hub.domain.port.api.order.*;
 import com.foodcourt.hub.domain.port.spi.*;
-import com.foodcourt.hub.domain.usecase.order.AssignOrderUseCase;
-import com.foodcourt.hub.domain.usecase.order.CreateOrderUseCase;
-import com.foodcourt.hub.domain.usecase.order.GetPageOrdersUseCase;
-import com.foodcourt.hub.domain.usecase.order.MarkOrderAsReadyUseCase;
+import com.foodcourt.hub.domain.usecase.order.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -41,5 +35,10 @@ public class OrderBeanConfiguration {
     @Bean
     public  IMarkOrderAsReadyServicePort markOrderAsReadyServicePort(){
         return new MarkOrderAsReadyUseCase(persistencePort, validationOrdersPort, smsSender);
+    }
+
+    @Bean
+    public IMarkOrderAsDeliveredServicePort markOrderAsDeliveredServicePort(){
+        return new MarkOrderAsDeliveredUseCase(persistencePort, validationOrdersPort);
     }
 }

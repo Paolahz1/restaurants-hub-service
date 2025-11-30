@@ -25,8 +25,6 @@ public class SmsSender implements ISmsSender {
                         new PhoneNumber("+18502900758"),
                         "¡Tu pedido está listo! Tu código de seguridad es: " + pin)
                 .create();
-
-        System.out.println("Mensaje enviado: " + message.getBody());
     }
 
     @Override
@@ -38,7 +36,5 @@ public class SmsSender implements ISmsSender {
                         new PhoneNumber("+18502900758"),
                         "Lo sentimos, tu pedido ya está en preparación y no puede cancelarse")
                 .create();
-
-        System.out.println("Mensaje enviado: " + message.getBody());
     }
 }

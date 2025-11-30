@@ -5,10 +5,7 @@ import com.foodcourt.hub.application.mapper.order.ICreateOrderMapper;
 import com.foodcourt.hub.application.mapper.order.IPageOrdersMapper;
 import com.foodcourt.hub.domain.model.Order;
 import com.foodcourt.hub.domain.model.PageModel;
-import com.foodcourt.hub.domain.port.api.order.IAssignOrderServicePort;
-import com.foodcourt.hub.domain.port.api.order.ICreateOrderServicePort;
-import com.foodcourt.hub.domain.port.api.order.IGetPageOrdersServicePort;
-import com.foodcourt.hub.domain.port.api.order.IMarkOrderAsReadyServicePort;
+import com.foodcourt.hub.domain.port.api.order.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,7 +18,8 @@ public class OrderHandler implements IOrderHandler{
     private final ICreateOrderServicePort servicePort;
     private final IGetPageOrdersServicePort getPageOrdersServicePort;
     private final IAssignOrderServicePort assignOrderServicePort;
-    private final IMarkOrderAsReadyServicePort markOrderAsReady;
+    private final IMarkOrderAsReadyServicePort markOrderAsReadyService;
+    private final IMarkOrderAsDeliveredServicePort markOrderAsDeliveredService;
 
     private final ICreateOrderMapper mapper;
     private final IPageOrdersMapper pageOrdersMapper;
@@ -52,7 +50,12 @@ public class OrderHandler implements IOrderHandler{
 
     @Override
     public void markOrderAsReady(long orderId, long employeeId) {
-        markOrderAsReady.markOrderAsReady(orderId, employeeId);
+        markOrderAsReadyService.markOrderAsReady(orderId, employeeId);
+    }
+
+    @Override
+    public void markOrderAsDelivered(MarkOrderAsDeliveredCommand command, long employeeId) {
+        markOrderAsDeliveredService.markOrderAsDelivered(command.getOrderId(), employeeId, command.getPin());
     }
 
 }
