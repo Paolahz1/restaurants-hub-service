@@ -12,4 +12,5 @@ public interface IOrderPersistencePort {
     List<Order> findByClientId(long clientId);
     PageModel<Order> getPageFromDb(int page, int size, OrderStatus staut, long restaurantId);
     Order findByOrderId (long orderId);
+    void deleteOrder(long orderId);
 }

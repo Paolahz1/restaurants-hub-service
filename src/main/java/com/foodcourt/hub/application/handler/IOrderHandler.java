@@ -8,4 +8,5 @@ public interface IOrderHandler {
     void assignOrder(long orderId, long employeeId);
     void markOrderAsReady(long orderId, long employeeId);
     void markOrderAsDelivered(MarkOrderAsDeliveredCommand command, long employeeId);
+    void cancelOrder(long orderId, long clientId);
 }
