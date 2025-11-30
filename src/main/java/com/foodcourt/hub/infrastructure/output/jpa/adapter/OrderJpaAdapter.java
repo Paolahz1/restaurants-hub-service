@@ -52,6 +52,15 @@ public class OrderJpaAdapter implements IOrderPersistencePort {
         return mapper.toDomain(entity);
     }
 
+    @Override
+    public void deleteOrder(long orderId) {
+
+        OrderEntity entity = repository.findById(orderId)
+                .orElse(null);
+
+        if (entity != null)  repository.delete(entity);
+    }
+
 
 }
 

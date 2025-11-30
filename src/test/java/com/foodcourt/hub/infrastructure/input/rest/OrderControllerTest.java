@@ -1,6 +1,5 @@
 package com.foodcourt.hub.infrastructure.input.rest;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.foodcourt.hub.application.dto.order.CreateOrderCommand;
 import com.foodcourt.hub.application.dto.order.CreateOrderResponse;
@@ -94,7 +93,6 @@ class OrderControllerTest {
     @Test
     void  shouldMarkOrderAsDelivered() throws Exception {
 
-        Long orderId = 1l;
         MarkOrderAsDeliveredCommand command = MarkOrderAsDeliveredCommand.builder()
                         .orderId(1l).pin("1234").build();
 
@@ -112,5 +110,27 @@ class OrderControllerTest {
         ).andExpect(status().isOk());
 
         verify(handler).markOrderAsDelivered(command, principal.id());
+    }
+
+    @Test
+    void shouldCancelOrder() throws Exception {
+        long orderId = 1l;
+
+        UserPrincipal principal = new UserPrincipal(2L, "correo@gmail.com", Role.CLIENT);
+        SecurityContextHolder.getContext().setAuthentication(
+                new UsernamePasswordAuthenticationToken(
+                        principal, null, Collections.singleton(() -> "ROLE_" + principal.role())
+                )
+        );
+
+        mockMvc.perform(
+                patch("/hub-service/order/cancel/{id}", orderId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(orderId))
+        ).andExpect(status().isOk());
+
+        verify(handler).cancelOrder(orderId, principal.id());
+
+
     }
 }

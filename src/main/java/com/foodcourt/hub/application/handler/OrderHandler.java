@@ -20,10 +20,10 @@ public class OrderHandler implements IOrderHandler{
     private final IAssignOrderServicePort assignOrderServicePort;
     private final IMarkOrderAsReadyServicePort markOrderAsReadyService;
     private final IMarkOrderAsDeliveredServicePort markOrderAsDeliveredService;
+    private final ICancelOrderServicePort cancelOrderServicePort;
 
     private final ICreateOrderMapper mapper;
     private final IPageOrdersMapper pageOrdersMapper;
-
 
 
     @Override
@@ -56,6 +56,11 @@ public class OrderHandler implements IOrderHandler{
     @Override
     public void markOrderAsDelivered(MarkOrderAsDeliveredCommand command, long employeeId) {
         markOrderAsDeliveredService.markOrderAsDelivered(command.getOrderId(), employeeId, command.getPin());
+    }
+
+    @Override
+    public void cancelOrder(long orderId, long clientId) {
+        cancelOrderServicePort.cancelOrder(orderId, clientId);
     }
 
 }

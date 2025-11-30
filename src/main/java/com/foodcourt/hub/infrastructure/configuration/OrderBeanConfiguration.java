@@ -41,4 +41,9 @@ public class OrderBeanConfiguration {
     public IMarkOrderAsDeliveredServicePort markOrderAsDeliveredServicePort(){
         return new MarkOrderAsDeliveredUseCase(persistencePort, validationOrdersPort);
     }
+
+    @Bean
+    public  ICancelOrderServicePort cancelOrderServicePort(){
+        return new CancelOrderUseCase(persistencePort, validationOrdersPort, smsSender);
+    }
 }

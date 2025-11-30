@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -118,6 +119,15 @@ public class OrderController {
     }
 
 
+    @PatchMapping("/cancel/{id}")
+    @PreAuthorize("hasRole('CLIENT')")
+    public ResponseEntity<Void> cancelOrder(@PathVariable long id, @AuthenticationPrincipal UserPrincipal principal) {
+
+       Long clientId = principal.id();
+
+        handler.cancelOrder(id,clientId);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 }
 
 
