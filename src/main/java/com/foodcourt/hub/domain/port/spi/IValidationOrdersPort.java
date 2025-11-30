@@ -9,4 +9,6 @@ public interface IValidationOrdersPort {
 
     boolean validateDishesSameRestaurant(Long restaurantId, List<OrderItem> orderItems);
     boolean validateOrderStatusIsPending(Order order);
+    boolean validateOrderStatusIsInPreparation(Order order);
+    boolean ValidateOrderIsAssignedToEmployee(Order order, long employeeId);
 }

@@ -5,6 +5,7 @@ import com.foodcourt.hub.infrastructure.exceptionhandler.ExceptionResponse;
 
 import java.util.Map;
 
+
 public class ForbiddenException extends RuntimeException{
     private final ErrorResponse error;
 

@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 @Builder
 public class Order {
-    private long id;
+    private Long id;
     private long restaurantId;
     private long clientId;
     private List<OrderItem> items;

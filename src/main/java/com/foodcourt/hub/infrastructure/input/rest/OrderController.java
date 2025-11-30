@@ -87,6 +87,26 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    //MARK ORDER AS READY AND SEND PIN
+
+    @Operation(
+            summary = "Mark an order as ready and notify the customer",
+            description = "Allows an employee to mark an order as ready and send an SMS to the customer with a security pin"
+    )
+    @ApiResponse(responseCode = "200", description = "Order marked as ready and customer notified")
+    @ApiResponse(responseCode = "403", description = "Forbidden - Only employees of the restaurant can mark an order as ready")
+    @ApiResponse(responseCode = "404", description = "Not Found - Order not found")
+    @PatchMapping("/{orderId}/ready")
+    @PreAuthorize("hasRole('EMPLOYEE')")
+    public ResponseEntity<Void> markOrderAsReady(@PathVariable Long orderId) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserPrincipal userPrincipal = (UserPrincipal) auth.getPrincipal();
+        Long employeeId = userPrincipal.id();
+
+        handler.markOrderAsReady(orderId, employeeId);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 
 }
 

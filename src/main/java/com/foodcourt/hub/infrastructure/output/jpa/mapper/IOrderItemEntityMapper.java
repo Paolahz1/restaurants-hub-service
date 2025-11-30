@@ -8,9 +8,9 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface IOrderItemEntityMapper {
 
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "order", ignore = true)
     OrderItemEntity toEntity(OrderItem orderItem);
 
     OrderItem toDomain(OrderItemEntity orderItemEntity);
+
+
 }
