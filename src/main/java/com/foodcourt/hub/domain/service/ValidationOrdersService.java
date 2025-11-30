@@ -42,6 +42,11 @@ public class ValidationOrdersService implements IValidationOrdersPort {
     }
 
     @Override
+    public boolean validateOrderStatusIsReady(Order order) {
+        return order.getStatus() == OrderStatus.READY;
+    }
+
+    @Override
     public boolean ValidateOrderIsAssignedToEmployee(Order order, long employeeId) {
         long realEmployeeId = order.getAssignedEmployeeId();
         return realEmployeeId == employeeId;

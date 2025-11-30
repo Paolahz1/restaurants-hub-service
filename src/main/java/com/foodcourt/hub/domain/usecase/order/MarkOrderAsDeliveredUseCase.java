@@ -4,31 +4,26 @@ import com.foodcourt.hub.domain.exception.ForbiddenException;
 import com.foodcourt.hub.domain.exception.NotFoundException;
 import com.foodcourt.hub.domain.model.Order;
 import com.foodcourt.hub.domain.model.OrderStatus;
-import com.foodcourt.hub.domain.port.api.order.IMarkOrderAsReadyServicePort;
+import com.foodcourt.hub.domain.port.api.order.IMarkOrderAsDeliveredServicePort;
 import com.foodcourt.hub.domain.port.spi.IOrderPersistencePort;
-import com.foodcourt.hub.domain.port.spi.ISmsSender;
 import com.foodcourt.hub.domain.port.spi.IValidationOrdersPort;
 import com.foodcourt.hub.infrastructure.exceptionhandler.ExceptionResponse;
 
 import java.util.Map;
-import java.util.Random;
 
-public class MarkOrderAsReadyUseCase implements IMarkOrderAsReadyServicePort {
+
+public class MarkOrderAsDeliveredUseCase implements IMarkOrderAsDeliveredServicePort {
 
     private final IOrderPersistencePort persistencePort;
     private final IValidationOrdersPort validationOrdersPort;
-    private final ISmsSender smsSender;
 
-    private static final Random random = new Random();
-
-    public MarkOrderAsReadyUseCase(IOrderPersistencePort persistencePort, IValidationOrdersPort validationOrdersPort, ISmsSender smsSender) {
+    public MarkOrderAsDeliveredUseCase(IOrderPersistencePort persistencePort, IValidationOrdersPort validationOrdersPort) {
         this.persistencePort = persistencePort;
         this.validationOrdersPort = validationOrdersPort;
-        this.smsSender = smsSender;
     }
 
     @Override
-    public void markOrderAsReady(long orderId, long employeeId ) {
+    public void markOrderAsDelivered(long orderId, long employeeId, String pin) {
 
         Order order  = persistencePort.findByOrderId(orderId);
 
@@ -36,15 +31,20 @@ public class MarkOrderAsReadyUseCase implements IMarkOrderAsReadyServicePort {
             throw  new NotFoundException(ExceptionResponse.ORDER_NOT_FOUND, Map.of("OrderId", orderId));
         }
 
-        validateOrderPermissions(order, employeeId);
         validateOrderStatus(order);
+        validateOrderPermissions(order, employeeId);
+        validateSentPin(order, pin);
 
-        order.setStatus(OrderStatus.READY);
-        String pin = generateSecurityPin();
-
-        //smsSender.sendTheSecurityPin(pin);
-        order.setSecurityPin(pin);
+        order.setStatus(OrderStatus.DELIVERED);
         persistencePort.saveOrder(order);
+    }
+
+    private void validateOrderStatus(Order order ) {
+        if (!validationOrdersPort.validateOrderStatusIsReady(order)) {
+            throw new ForbiddenException(
+                    ExceptionResponse.INVALID_STATUS,
+                    Map.of("current order's status", order.getStatus()));
+        }
     }
 
     private void validateOrderPermissions(Order order, long employeeId) {
@@ -55,15 +55,12 @@ public class MarkOrderAsReadyUseCase implements IMarkOrderAsReadyServicePort {
         }
     }
 
-    private void validateOrderStatus(Order order ) {
-        if (!validationOrdersPort.validateOrderStatusIsInPreparation(order)) {
-            throw new ForbiddenException(
-                    ExceptionResponse.INVALID_STATUS,
-                    Map.of("current order's status", order.getStatus()));
-        }
+    private void validateSentPin(Order order, String pin) {
+       if(!order.getSecurityPin().equals(pin)){
+           throw new ForbiddenException(
+                   ExceptionResponse.INVALID_PIN,
+                   Map.of("This PIN does not match the actual PIN: ", pin));
+       }
     }
 
-    private String generateSecurityPin() {
-        return String.format("%04d", random.nextInt(10000));
-    }
 }

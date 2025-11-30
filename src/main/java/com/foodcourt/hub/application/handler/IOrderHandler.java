@@ -6,5 +6,6 @@ public interface IOrderHandler {
     CreateOrderResponse createOrder(CreateOrderCommand command, long clientId);
     GetPageOrdersResponse getPageOrders(GetPageOrdersCommand command, long employeeId);
     void assignOrder(long orderId, long employeeId);
-    void markOrderAsReady(long orderId, long EmployeeId);
+    void markOrderAsReady(long orderId, long employeeId);
+    void markOrderAsDelivered(MarkOrderAsDeliveredCommand command, long employeeId);
 }
