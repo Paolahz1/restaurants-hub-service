@@ -50,7 +50,7 @@ class CreateOrderUseCaseTest {
                 .items(List.of(item))
                 .build();
 
-        when(validationUsersPort.hasPendingOrders(clientId)).thenReturn(false);
+        when(validationUsersPort.clientHasPendingOrders(clientId)).thenReturn(false);
         when(validationOrdersPort.validateDishesSameRestaurant(
                 mockOrder.getRestaurantId(), mockOrder.getItems())).
                 thenReturn(true);
@@ -90,7 +90,7 @@ class CreateOrderUseCaseTest {
                 .build();
 
 
-        when(validationUsersPort.hasPendingOrders(clientId)).thenReturn(true);
+        when(validationUsersPort.clientHasPendingOrders(clientId)).thenReturn(true);
         assertThrows(HasPendingOrdersException.class, () -> useCase.createOrder(mockOrder, clientId));
 
     }
@@ -115,7 +115,7 @@ class CreateOrderUseCaseTest {
                 .build();
 
 
-        when(validationUsersPort.hasPendingOrders(clientId)).thenReturn(false);
+        when(validationUsersPort.clientHasPendingOrders(clientId)).thenReturn(false);
         when(validationOrdersPort.validateDishesSameRestaurant(
                 mockOrder.getRestaurantId(), mockOrder.getItems())).thenReturn(false);
         assertThrows(DishesNotFromSameRestaurant.class, () -> useCase.createOrder(mockOrder, clientId));

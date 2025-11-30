@@ -33,7 +33,6 @@ public class UserInfoRestAdapter implements IUserInfoPort {
     @Override
     public long getEmployeeDetails(Long id) {
         String token = tokenProvider.getToken();
-        System.out.print("EMPLOYEEEEEEEEEEEEEEEE" + id);
         EmployeeDetailsResponse response = webClient.get()
                 .uri("/users/info/employee/{id}", id)
                 .header("Authorization", "Bearer " + token )

@@ -25,6 +25,9 @@ public class OrderController {
 
     private final IOrderHandler handler;
 
+
+    // CREATE
+
     @Operation(
             summary = "Create a new order",
             description = "Allows a client to create an order"
@@ -43,6 +46,7 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    //GET PAGE
 
     @Operation(
             summary = "Get paginated orders for employee",
@@ -62,4 +66,50 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    //ASSIGN ORDER
+
+    @Operation(
+            summary = "Assign an employee to an order and change the status to 'IN_PREPARATION'",
+            description = "Allows an employee to assign themselves to an order"
+    )
+    @ApiResponse(responseCode = "200", description = "Order status updated successfully")
+    @ApiResponse(responseCode = "403", description = "Forbidden - Only employees of the restaurant can assign themselves")
+    @ApiResponse(responseCode = "400", description = "Bad Request - Invalid order status")
+    @PatchMapping("/{orderId}/assign")
+    @PreAuthorize("hasRole('EMPLOYEE')")
+    public ResponseEntity<Void> assignOrder(@PathVariable Long orderId) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserPrincipal userPrincipal = (UserPrincipal) auth.getPrincipal();
+        Long employeeId = userPrincipal.id();
+
+        handler.assignOrder(orderId, employeeId);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    //MARK ORDER AS READY AND SEND PIN
+
+    @Operation(
+            summary = "Mark an order as ready and notify the customer",
+            description = "Allows an employee to mark an order as ready and send an SMS to the customer with a security pin"
+    )
+    @ApiResponse(responseCode = "200", description = "Order marked as ready and customer notified")
+    @ApiResponse(responseCode = "403", description = "Forbidden - Only employees of the restaurant can mark an order as ready")
+    @ApiResponse(responseCode = "404", description = "Not Found - Order not found")
+    @PatchMapping("/{orderId}/ready")
+    @PreAuthorize("hasRole('EMPLOYEE')")
+    public ResponseEntity<Void> markOrderAsReady(@PathVariable Long orderId) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserPrincipal userPrincipal = (UserPrincipal) auth.getPrincipal();
+        Long employeeId = userPrincipal.id();
+
+        handler.markOrderAsReady(orderId, employeeId);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
 }
+
+
+
+

@@ -11,7 +11,9 @@ public enum ExceptionResponse {
     INVALID_CATEGORY("Invalid dish category"),
     INVALID_STATUS("Invalid order status"),
     HAS_PENDING_ORDERS("The client has pending orders"),
-    DISHES_NOT_SAME_RESTAURANT("All dishes in the order must be from the same restaurant");
+    DISHES_NOT_SAME_RESTAURANT("All dishes in the order must be from the same restaurant"),
+    ORDER_NOT_FOUND("Not order found");
+
     private final String message;
 
     ExceptionResponse(String message) {

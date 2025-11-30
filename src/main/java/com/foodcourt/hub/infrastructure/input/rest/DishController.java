@@ -26,7 +26,7 @@ public class DishController {
     @Operation(summary = "Create a new dish", description = "Allows a restaurant owner to create a dish")
     @ApiResponse(responseCode = "201", description = "Dish created")
     @ApiResponse(responseCode = "403", description = "Forbidden - Only owners can create dishes")
-    @PostMapping
+    @PostMapping("/")
     @PreAuthorize("hasRole('OWNER')")
     public ResponseEntity<Void> createDish(@RequestBody CreateDishCommand command) {
 

@@ -11,7 +11,6 @@ import com.foodcourt.hub.domain.port.api.restaurant.ICreateRestaurantServicePort
 import com.foodcourt.hub.domain.port.api.restaurant.IGetPageRestaurantsServicePort;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 @Service

@@ -1,7 +1,9 @@
 package com.foodcourt.hub.domain.service;
 
 import com.foodcourt.hub.domain.model.Dish;
+import com.foodcourt.hub.domain.model.Order;
 import com.foodcourt.hub.domain.model.OrderItem;
+import com.foodcourt.hub.domain.model.OrderStatus;
 import com.foodcourt.hub.domain.port.spi.IDishPersistencePort;
 import com.foodcourt.hub.domain.port.spi.IValidationOrdersPort;
 
@@ -29,7 +31,21 @@ public class ValidationOrdersService implements IValidationOrdersPort {
                 .allMatch(dish -> dish.getRestaurantId().equals(restaurantId));
     }
 
+    @Override
+    public boolean validateOrderStatusIsPending(Order order) {
+        return order.getStatus() == OrderStatus.PENDING;
+    }
 
+    @Override
+    public boolean validateOrderStatusIsInPreparation(Order order){
+        return order.getStatus() == OrderStatus.IN_PREPARATION;
+    }
+
+    @Override
+    public boolean ValidateOrderIsAssignedToEmployee(Order order, long employeeId) {
+        long realEmployeeId = order.getAssignedEmployeeId();
+        return realEmployeeId == employeeId;
+    }
 
 
 }

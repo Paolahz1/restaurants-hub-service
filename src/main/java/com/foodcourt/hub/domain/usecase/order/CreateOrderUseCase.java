@@ -29,7 +29,7 @@ public class CreateOrderUseCase implements ICreateOrderServicePort {
             throw new IllegalArgumentException("The order must contain at least one dish.");
         }
 
-        boolean hasPendingOrders = validationUsersPort.hasPendingOrders(clientId);
+        boolean hasPendingOrders = validationUsersPort.clientHasPendingOrders(clientId);
         if (hasPendingOrders) {
             throw new HasPendingOrdersException();
         }
