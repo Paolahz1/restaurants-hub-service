@@ -53,4 +53,9 @@ public class OrderBeanConfiguration {
     public IGetTracingOrderServicePort getTracingOrderServicePort(){
         return new GetTracingOrderUseCase(orderTracingPersistencePort);
     }
+
+    @Bean
+    public  ICancelOrderServicePort cancelOrderServicePort(){
+        return new CancelOrderUseCase(persistencePort, validationOrdersPort, smsSender);
+    }
 }
