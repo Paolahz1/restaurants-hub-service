@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
-public class UsersWebClientConfig {
+public class WebClientConfig {
 
     @Bean
     public WebClient userServiceWebClient(){
@@ -13,6 +13,11 @@ public class UsersWebClientConfig {
                 .baseUrl("http://localhost:8090/users-service")
                 .build();
     }
+
+    @Bean
+    public WebClient tracingServiceWebClient(){
+        return WebClient.builder()
+                .baseUrl("http://localhost:8092/tracing-service")
+                .build();
+    }
 }
-
-

@@ -3,9 +3,10 @@ package com.foodcourt.hub.domain.model;
 import lombok.Builder;
 import lombok.Data;
 
-
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
+
 
 @Data
 @Builder
@@ -16,6 +17,7 @@ public class Order {
     private List<OrderItem> items;
     private OrderStatus status;
     private LocalDateTime createdAt;
+    private Instant timestamp;
     private Long assignedEmployeeId;
     private String securityPin;
 }

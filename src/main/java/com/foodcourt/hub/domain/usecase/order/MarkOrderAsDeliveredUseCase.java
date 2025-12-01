@@ -6,6 +6,7 @@ import com.foodcourt.hub.domain.model.Order;
 import com.foodcourt.hub.domain.model.OrderStatus;
 import com.foodcourt.hub.domain.port.api.order.IMarkOrderAsDeliveredServicePort;
 import com.foodcourt.hub.domain.port.spi.IOrderPersistencePort;
+import com.foodcourt.hub.domain.port.spi.IOrderTracingPersistencePort;
 import com.foodcourt.hub.domain.port.spi.IValidationOrdersPort;
 import com.foodcourt.hub.infrastructure.exceptionhandler.ExceptionResponse;
 
@@ -16,10 +17,12 @@ public class MarkOrderAsDeliveredUseCase implements IMarkOrderAsDeliveredService
 
     private final IOrderPersistencePort persistencePort;
     private final IValidationOrdersPort validationOrdersPort;
+    private final IOrderTracingPersistencePort orderTracingPersistencePort;
 
-    public MarkOrderAsDeliveredUseCase(IOrderPersistencePort persistencePort, IValidationOrdersPort validationOrdersPort) {
+    public MarkOrderAsDeliveredUseCase(IOrderPersistencePort persistencePort, IValidationOrdersPort validationOrdersPort, IOrderTracingPersistencePort orderTracingPersistencePort) {
         this.persistencePort = persistencePort;
         this.validationOrdersPort = validationOrdersPort;
+        this.orderTracingPersistencePort = orderTracingPersistencePort;
     }
 
     @Override
@@ -37,6 +40,8 @@ public class MarkOrderAsDeliveredUseCase implements IMarkOrderAsDeliveredService
 
         order.setStatus(OrderStatus.DELIVERED);
         persistencePort.saveOrder(order);
+
+        orderTracingPersistencePort.saveTracingOrder(order);
     }
 
     private void validateOrderStatus(Order order ) {

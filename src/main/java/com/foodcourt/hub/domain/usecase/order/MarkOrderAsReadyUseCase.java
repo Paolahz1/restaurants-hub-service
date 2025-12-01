@@ -6,6 +6,7 @@ import com.foodcourt.hub.domain.model.Order;
 import com.foodcourt.hub.domain.model.OrderStatus;
 import com.foodcourt.hub.domain.port.api.order.IMarkOrderAsReadyServicePort;
 import com.foodcourt.hub.domain.port.spi.IOrderPersistencePort;
+import com.foodcourt.hub.domain.port.spi.IOrderTracingPersistencePort;
 import com.foodcourt.hub.domain.port.spi.ISmsSender;
 import com.foodcourt.hub.domain.port.spi.IValidationOrdersPort;
 import com.foodcourt.hub.infrastructure.exceptionhandler.ExceptionResponse;
@@ -20,11 +21,13 @@ public class MarkOrderAsReadyUseCase implements IMarkOrderAsReadyServicePort {
     private final ISmsSender smsSender;
 
     private static final Random random = new Random();
+    private final IOrderTracingPersistencePort orderTracingPersistencePort;
 
-    public MarkOrderAsReadyUseCase(IOrderPersistencePort persistencePort, IValidationOrdersPort validationOrdersPort, ISmsSender smsSender) {
+    public MarkOrderAsReadyUseCase(IOrderPersistencePort persistencePort, IValidationOrdersPort validationOrdersPort, ISmsSender smsSender, IOrderTracingPersistencePort orderTracingPersistencePort) {
         this.persistencePort = persistencePort;
         this.validationOrdersPort = validationOrdersPort;
         this.smsSender = smsSender;
+        this.orderTracingPersistencePort = orderTracingPersistencePort;
     }
 
     @Override
@@ -45,6 +48,8 @@ public class MarkOrderAsReadyUseCase implements IMarkOrderAsReadyServicePort {
         //smsSender.sendTheSecurityPin(pin);
         order.setSecurityPin(pin);
         persistencePort.saveOrder(order);
+
+        orderTracingPersistencePort.saveTracingOrder(order);
     }
 
     private void validateOrderPermissions(Order order, long employeeId) {

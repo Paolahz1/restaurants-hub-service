@@ -5,6 +5,7 @@ import com.foodcourt.hub.domain.model.Order;
 import com.foodcourt.hub.domain.model.OrderStatus;
 import com.foodcourt.hub.domain.port.api.order.ICreateOrderServicePort;
 import com.foodcourt.hub.domain.port.spi.IOrderPersistencePort;
+import com.foodcourt.hub.domain.port.spi.IOrderTracingPersistencePort;
 import com.foodcourt.hub.domain.port.spi.IValidationOrdersPort;
 import com.foodcourt.hub.domain.port.spi.IValidationUsersPort;
 
@@ -15,11 +16,13 @@ public class CreateOrderUseCase implements ICreateOrderServicePort {
     private final IOrderPersistencePort persistencePort;
     private final IValidationOrdersPort validationOrdersPort;
     private final IValidationUsersPort validationUsersPort;
+    private final IOrderTracingPersistencePort orderTracingPersistencePort;
 
-    public CreateOrderUseCase(IOrderPersistencePort persistencePort, IValidationOrdersPort validationOrdersPort, IValidationUsersPort validationUsersPort) {
+    public CreateOrderUseCase(IOrderPersistencePort persistencePort, IValidationOrdersPort validationOrdersPort, IValidationUsersPort validationUsersPort, IOrderTracingPersistencePort orderTracingPersistencePort) {
         this.persistencePort = persistencePort;
         this.validationOrdersPort = validationOrdersPort;
         this.validationUsersPort = validationUsersPort;
+        this.orderTracingPersistencePort = orderTracingPersistencePort;
     }
 
     @Override
@@ -39,12 +42,13 @@ public class CreateOrderUseCase implements ICreateOrderServicePort {
             throw new DishesNotFromSameRestaurant();
         }
 
-
-
         order.setClientId(clientId);
         order.setCreatedAt(LocalDateTime.now());
         order.setStatus(OrderStatus.PENDING);
 
-        return persistencePort.saveOrder(order);
+        Order saved = persistencePort.saveOrder(order);
+        orderTracingPersistencePort.saveTracingOrder(saved);
+
+        return saved;
     }
 }

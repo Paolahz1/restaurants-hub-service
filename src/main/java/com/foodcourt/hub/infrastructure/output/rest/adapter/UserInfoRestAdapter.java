@@ -12,15 +12,14 @@ import org.springframework.web.reactive.function.client.WebClient;
 @RequiredArgsConstructor
 public class UserInfoRestAdapter implements IUserInfoPort {
 
-    private final WebClient webClient;
+    private final WebClient userServiceWebClient;
     private final TokenProviderService tokenProvider;
 
     @Override
     public String getUserRole(Long id) {
-
         String token = tokenProvider.getToken();
 
-        RoleResponse response = webClient.get()
+        RoleResponse response = userServiceWebClient.get()
                 .uri("/users/info/role/{id}", id)
                 .header("Authorization", "Bearer " + token )
                 .retrieve()
@@ -33,7 +32,7 @@ public class UserInfoRestAdapter implements IUserInfoPort {
     @Override
     public long getEmployeeDetails(Long id) {
         String token = tokenProvider.getToken();
-        EmployeeDetailsResponse response = webClient.get()
+        EmployeeDetailsResponse response = userServiceWebClient.get()
                 .uri("/users/info/employee/{id}", id)
                 .header("Authorization", "Bearer " + token )
                 .retrieve()
@@ -41,6 +40,4 @@ public class UserInfoRestAdapter implements IUserInfoPort {
                 .block();
         return response.getRestaurantId();
     }
-
-
 }
