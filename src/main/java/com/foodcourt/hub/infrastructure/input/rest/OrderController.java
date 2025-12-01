@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -105,6 +106,18 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+
+    @Operation(
+            summary = "Mark an order as delivered",
+            description = """
+                    Allows an employee to mark a customer's order as DELIVERED. 
+                    The employee must send the correct security PIN previously generated 
+                    when the order was marked as READY.
+                    """
+    )
+    @ApiResponse(responseCode = "200", description = "Order marked as delivered successfully")
+    @ApiResponse(responseCode = "403", description = "Forbidden - Invalid PIN or employee is not assigned to the order")
+    @ApiResponse(responseCode = "404", description = "Not Found - Order does not exist")
     @PostMapping("/delivered")
     @PreAuthorize("hasRole('EMPLOYEE')")
     public ResponseEntity<Void> markOrderAsDelivered(@Valid  @RequestBody MarkOrderAsDeliveredCommand command) {
@@ -118,6 +131,27 @@ public class OrderController {
     }
 
 
+    @Operation(
+            summary = "Cancel an order",
+            description = """
+                    Allows a client to cancel an existing order.
+                    The order can only be canceled if its current status is PENDING. 
+                    If the order has already progressed,
+                    the cancellation is forbidden and the customer will receive a notification SMS.
+                    """
+    )
+    @ApiResponse(responseCode = "200", description = "Order canceled successfully")
+    @ApiResponse(responseCode = "403", description = "Forbidden - The order does not belong to the client or cannot be canceled")
+    @ApiResponse(responseCode = "404", description = "Not Found - Order does not exist")
+    @PatchMapping("/cancel/{id}")
+    @PreAuthorize("hasRole('CLIENT')")
+    public ResponseEntity<Void> cancelOrder(@PathVariable long id, @AuthenticationPrincipal UserPrincipal principal) {
+
+       Long clientId = principal.id();
+
+        handler.cancelOrder(id,clientId);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 }
 
 

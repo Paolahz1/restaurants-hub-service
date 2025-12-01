@@ -14,12 +14,14 @@ public class OrderBeanConfiguration {
     private final IOrderPersistencePort persistencePort;
     private final IValidationOrdersPort validationOrdersPort;
     private final IValidationUsersPort validationUsersPort;
+
     private final IUserInfoPort userInfoPort;
     private final ISmsSender smsSender;
+    private final IOrderTracingPersistencePort orderTracingPersistencePort;
 
     @Bean
     public ICreateOrderServicePort createOrderServicePort (){
-        return new CreateOrderUseCase(persistencePort, validationOrdersPort, validationUsersPort);
+        return new CreateOrderUseCase(persistencePort, validationOrdersPort, validationUsersPort, orderTracingPersistencePort);
     }
 
     @Bean
@@ -29,16 +31,26 @@ public class OrderBeanConfiguration {
 
     @Bean
     public IAssignOrderServicePort assignOrderServicePort(){
-        return  new AssignOrderUseCase(persistencePort,validationOrdersPort, validationUsersPort );
+        return  new AssignOrderUseCase(persistencePort, orderTracingPersistencePort, validationOrdersPort, validationUsersPort );
     }
 
     @Bean
     public  IMarkOrderAsReadyServicePort markOrderAsReadyServicePort(){
-        return new MarkOrderAsReadyUseCase(persistencePort, validationOrdersPort, smsSender);
+        return new MarkOrderAsReadyUseCase(persistencePort, validationOrdersPort, smsSender, orderTracingPersistencePort);
     }
 
     @Bean
     public IMarkOrderAsDeliveredServicePort markOrderAsDeliveredServicePort(){
-        return new MarkOrderAsDeliveredUseCase(persistencePort, validationOrdersPort);
+        return new MarkOrderAsDeliveredUseCase(persistencePort, validationOrdersPort, orderTracingPersistencePort);
+    }
+
+    @Bean
+    public  ICancelOrderServicePort cancelOrderServicePort(){
+        return new CancelOrderUseCase(persistencePort, validationOrdersPort, smsSender, orderTracingPersistencePort);
+    }
+
+    @Bean
+    public IGetTracingOrderServicePort getTracingOrderServicePort(){
+        return new GetTracingOrderUseCase(orderTracingPersistencePort);
     }
 }

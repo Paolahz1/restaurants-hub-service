@@ -5,7 +5,7 @@ package com.foodcourt.hub.application.mapper.restaurant;
  import com.foodcourt.hub.domain.model.PageModel;
  import com.foodcourt.hub.domain.model.Restaurant;
 import org.mapstruct.Mapper;
- import org.springframework.data.domain.Page;
+
 
  import java.util.List;
 

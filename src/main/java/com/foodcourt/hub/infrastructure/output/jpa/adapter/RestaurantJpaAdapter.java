@@ -32,7 +32,6 @@ public class RestaurantJpaAdapter implements IRestaurantPersistencePort {
         return repository.findByNit(nit).isPresent();
     }
 
-    //todo eliminar esto y sustituir por el validator
     @Override
     public Long getOwnerIdByRestaurant(Long idRestaurant) {
         return  repository.findById(idRestaurant)

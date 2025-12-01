@@ -6,6 +6,7 @@ import com.foodcourt.hub.domain.model.Order;
 import com.foodcourt.hub.domain.model.OrderStatus;
 import com.foodcourt.hub.domain.port.api.order.IAssignOrderServicePort;
 import com.foodcourt.hub.domain.port.spi.IOrderPersistencePort;
+import com.foodcourt.hub.domain.port.spi.IOrderTracingPersistencePort;
 import com.foodcourt.hub.domain.port.spi.IValidationOrdersPort;
 import com.foodcourt.hub.domain.port.spi.IValidationUsersPort;
 import com.foodcourt.hub.infrastructure.exceptionhandler.ExceptionResponse;
@@ -15,12 +16,14 @@ import java.util.Map;
 public class AssignOrderUseCase implements IAssignOrderServicePort {
 
     private final IOrderPersistencePort persistencePort;
+    private final IOrderTracingPersistencePort orderTracingPersistencePort;
 
     private final IValidationOrdersPort validationOrdersPort;
     private final IValidationUsersPort validationUsersPort;
 
-    public AssignOrderUseCase(IOrderPersistencePort persistencePort, IValidationOrdersPort validationOrdersPort, IValidationUsersPort validationUsersPort) {
+    public AssignOrderUseCase(IOrderPersistencePort persistencePort, IOrderTracingPersistencePort orderTracingPersistencePort, IValidationOrdersPort validationOrdersPort, IValidationUsersPort validationUsersPort) {
         this.persistencePort = persistencePort;
+        this.orderTracingPersistencePort = orderTracingPersistencePort;
         this.validationOrdersPort = validationOrdersPort;
         this.validationUsersPort = validationUsersPort;
     }
@@ -46,6 +49,6 @@ public class AssignOrderUseCase implements IAssignOrderServicePort {
         order.setStatus(OrderStatus.IN_PREPARATION);
         order.setAssignedEmployeeId(employeeId);
         persistencePort.saveOrder(order);
-
+        orderTracingPersistencePort.saveTracingOrder(order);
     }
 }

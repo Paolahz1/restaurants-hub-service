@@ -10,7 +10,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 @RequiredArgsConstructor
 public class TokenProviderService {
 
-    private final WebClient webClient;
+    private final WebClient userServiceWebClient;
 
     private String cachedToken;
     private long expiresAt;
@@ -23,7 +23,7 @@ public class TokenProviderService {
 
         AuthCommand command = new AuthCommand("hub-service@system.local", "1234");
 
-        AuthResponse authResponse = webClient.post()
+        AuthResponse authResponse = userServiceWebClient.post()
                 .uri("/users/auth/login")
                 .bodyValue(command)
                 .retrieve()
