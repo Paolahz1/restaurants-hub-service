@@ -3,8 +3,10 @@ package com.foodcourt.hub.application.handler;
 import com.foodcourt.hub.application.dto.order.*;
 import com.foodcourt.hub.application.mapper.order.ICreateOrderMapper;
 import com.foodcourt.hub.application.mapper.order.IPageOrdersMapper;
-import com.foodcourt.hub.application.mapper.order.OrderToTracingOrderMapper;
+import com.foodcourt.hub.application.mapper.order.OrderTracingOrderMapper;
+import com.foodcourt.hub.domain.model.EmployeeEfficiency;
 import com.foodcourt.hub.domain.model.Order;
+import com.foodcourt.hub.domain.model.OrderDuration;
 import com.foodcourt.hub.domain.model.PageModel;
 import com.foodcourt.hub.domain.port.api.order.*;
 import jakarta.transaction.Transactional;
@@ -25,10 +27,12 @@ public class OrderHandler implements IOrderHandler{
     private final IMarkOrderAsDeliveredServicePort markOrderAsDeliveredService;
     private final ICancelOrderServicePort cancelOrderServicePort;
     private final IGetTracingOrderServicePort getTracingOrderServicePort;
+    private final IGetOrdersDurationForRestaurantServicePort durationForRestaurantServicePort;
+    private final IGetEmployeeAverageServicePort employeeAverageServicePort;
 
     private final ICreateOrderMapper mapper;
     private final IPageOrdersMapper pageOrdersMapper;
-    private final OrderToTracingOrderMapper toTracingOrderMapper;
+    private final OrderTracingOrderMapper tracingOrderMapper;
 
     @Override
     public CreateOrderResponse createOrder(CreateOrderCommand command, long clientId) {
@@ -44,7 +48,6 @@ public class OrderHandler implements IOrderHandler{
                 command.getPage(), command.getSize(), command.getStatus(), employeeId);
 
         return  pageOrdersMapper.toResponse(pageModel);
-
     }
 
     @Override
@@ -67,19 +70,35 @@ public class OrderHandler implements IOrderHandler{
         cancelOrderServicePort.cancelOrder(orderId, clientId);
     }
 
-
-
     @Override
     public GetTracingOrderByClientResponse getTracingOrderByClient(long orderId, long clientId) {
         List<Order> orders = getTracingOrderServicePort.getTracingOrder(orderId, clientId);
-        List<TracingOrderResponse> tracingOrderResponses = toTracingOrderMapper.toTracingOrderResponseList(orders);
+        List<TracingOrderResponse> tracingOrderResponses = tracingOrderMapper.toTracingOrderResponseList(orders);
 
 
         return GetTracingOrderByClientResponse.builder()
-                .id(orderId)
+                .orderId(orderId)
                 .restaurantId(orders.get(0).getRestaurantId())
                 .tracingOrder(tracingOrderResponses)
                 .build();
     }
 
+    @Override
+    public GetOrderDurationResponse getOrderDuration(long restaurantId) {
+        List<OrderDuration> orders = durationForRestaurantServicePort.getOrdersDuration(restaurantId);
+
+        return GetOrderDurationResponse.builder()
+                .restaurantId(restaurantId)
+                .orders(orders).build();
+    }
+
+
+    @Override
+    public GetEmployeeRankingResponse getEmployeeRanking(long restaurantId) {
+        List<EmployeeEfficiency> efficiencies = employeeAverageServicePort.getAverageOrderTracing(restaurantId);
+        return GetEmployeeRankingResponse.builder()
+                .restaurantId(restaurantId)
+                .employeeEfficiencies(efficiencies)
+                .build();
+    }
 }
