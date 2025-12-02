@@ -56,7 +56,7 @@ public class CancelOrderUseCase implements ICancelOrderServicePort {
            // smsSender.sendNotification();
             throw new ForbiddenException(
                     ExceptionResponse.INVALID_STATUS,
-                    Map.of("orderId", order.getId())
+                    Map.of("Current state of your order ", order.getStatus().name())
             );
         }
     }

@@ -9,11 +9,13 @@ public enum ExceptionResponse {
     DATABASE_ERROR("There was an error accessing the database"),
     INVALID_PERMISSION("You do not have the permission to make this request"),
     INVALID_CATEGORY("Invalid dish category"),
-    INVALID_STATUS("Invalid order status"),
+    INVALID_STATUS("The order status is invalid for this operation"),
     HAS_PENDING_ORDERS("The client has pending orders"),
-    DISHES_NOT_SAME_RESTAURANT("All dishes in the order must be from the same restaurant"),
-    ORDER_NOT_FOUND("Not order found"),
-    INVALID_PIN("The pin entered is incorrect");
+    DISHES_NOT_SAME_RESTAURANT("All dishes in the order must belong to the same restaurant"),
+    ORDER_NOT_FOUND("No order found with the given criteria"),
+    INVALID_PIN("The pin entered is incorrect"),
+    TRACING_NOT_FOUND("No completed order tracing records found");
+
     private final String message;
 
     ExceptionResponse(String message) {

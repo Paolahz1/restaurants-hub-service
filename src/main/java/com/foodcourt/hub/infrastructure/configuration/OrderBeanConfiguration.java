@@ -2,6 +2,7 @@ package com.foodcourt.hub.infrastructure.configuration;
 
 import com.foodcourt.hub.domain.port.api.order.*;
 import com.foodcourt.hub.domain.port.spi.*;
+import com.foodcourt.hub.domain.service.OrderDurationServicePort;
 import com.foodcourt.hub.domain.usecase.order.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -12,12 +13,14 @@ import org.springframework.context.annotation.Configuration;
 public class OrderBeanConfiguration {
 
     private final IOrderPersistencePort persistencePort;
-    private final IValidationOrdersPort validationOrdersPort;
+    private final IOrderTracingPersistencePort orderTracingPersistencePort;
+
     private final IValidationUsersPort validationUsersPort;
+    private final IValidationOrdersPort validationOrdersPort;
 
     private final IUserInfoPort userInfoPort;
     private final ISmsSender smsSender;
-    private final IOrderTracingPersistencePort orderTracingPersistencePort;
+
 
     @Bean
     public ICreateOrderServicePort createOrderServicePort (){
@@ -55,7 +58,17 @@ public class OrderBeanConfiguration {
     }
 
     @Bean
-    public  ICancelOrderServicePort cancelOrderServicePort(){
-        return new CancelOrderUseCase(persistencePort, validationOrdersPort, smsSender);
+    public IOrderDurationServicePort orderDurationServicePort(){
+        return new OrderDurationServicePort();
+    }
+
+    @Bean
+    public  IGetOrdersDurationForRestaurantServicePort getOrdersDurationForRestaurantServicePort( IOrderDurationServicePort orderDurationServicePort){
+        return new GetOrdersDurationForRestaurantUseCase(orderTracingPersistencePort, orderDurationServicePort );
+    }
+
+    @Bean
+    public  IGetEmployeeAverageServicePort getEmployeeAverageServicePort(IOrderDurationServicePort orderDurationServicePort){
+        return new GetEmployeeEfficiencyRankingUseCase(orderDurationServicePort, orderTracingPersistencePort);
     }
 }

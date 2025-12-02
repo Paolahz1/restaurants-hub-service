@@ -1,16 +1,14 @@
 package com.foodcourt.hub.application.dto.order;
 
+import com.foodcourt.hub.domain.model.OrderDuration;
 import lombok.Builder;
 import lombok.Data;
-
 
 import java.util.List;
 
 @Data
 @Builder
-public class GetTracingOrderByClientResponse {
-
-    private Long orderId;
+public class GetOrderDurationResponse {
     private long restaurantId;
-    List<TracingOrderResponse> tracingOrder;
+    private List<OrderDuration> orders;
 }
