@@ -6,6 +6,7 @@ import com.foodcourt.hub.domain.model.OrderStatus;
 import com.foodcourt.hub.domain.model.PageModel;
 import com.foodcourt.hub.domain.port.spi.IOrderPersistencePort;
 import com.foodcourt.hub.domain.port.spi.IUserInfoPort;
+import com.foodcourt.hub.infrastructure.exceptionhandler.ExceptionResponse;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -82,7 +83,7 @@ class GetPageOrdersUseCaseTest {
                 () -> useCase.getPageOrder(page, size, status, employeeId)
         );
 
-        assertEquals("Invalid order status",exception.getError().getMessage());
+        assertEquals(ExceptionResponse.INVALID_STATUS.getMessage(),exception.getError().getMessage());
 
         verifyNoInteractions(userInfoPort);
         verifyNoInteractions(persistencePort);

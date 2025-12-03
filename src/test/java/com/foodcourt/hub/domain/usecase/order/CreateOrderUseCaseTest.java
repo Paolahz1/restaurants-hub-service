@@ -6,7 +6,8 @@ import com.foodcourt.hub.domain.model.Order;
 import com.foodcourt.hub.domain.model.OrderItem;
 import com.foodcourt.hub.domain.model.OrderStatus;
 import com.foodcourt.hub.domain.port.spi.IOrderPersistencePort;
-import com.foodcourt.hub.domain.port.spi.IValidationOrdersPort;
+import com.foodcourt.hub.domain.port.spi.IOrderTracingPersistencePort;
+import com.foodcourt.hub.domain.port.spi.IValidateDishesPort;
 import com.foodcourt.hub.domain.port.spi.IValidationUsersPort;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,10 +28,14 @@ class CreateOrderUseCaseTest {
     IOrderPersistencePort persistencePort;
 
     @Mock
-    IValidationOrdersPort validationOrdersPort;
+    IValidateDishesPort validationOrdersPort;
 
     @Mock
     IValidationUsersPort validationUsersPort;
+
+    @Mock
+    IOrderTracingPersistencePort orderTracingPersistencePort;
+
 
     @InjectMocks
     CreateOrderUseCase useCase;
@@ -61,6 +66,8 @@ class CreateOrderUseCaseTest {
         assertEquals(OrderStatus.PENDING, mockOrder.getStatus());
         assertEquals(clientId, mockOrder.getClientId());
         verify(persistencePort).saveOrder(mockOrder);
+        verify(orderTracingPersistencePort).saveTracingOrder(mockOrder);
+
 
     }
 

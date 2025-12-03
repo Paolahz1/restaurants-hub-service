@@ -5,7 +5,7 @@ import com.foodcourt.hub.domain.exception.NotFoundException;
 import com.foodcourt.hub.domain.model.Order;
 import com.foodcourt.hub.domain.model.OrderStatus;
 import com.foodcourt.hub.domain.port.spi.IOrderPersistencePort;
-import com.foodcourt.hub.domain.port.spi.IValidationOrdersPort;
+import com.foodcourt.hub.domain.port.spi.IOrderTracingPersistencePort;
 import com.foodcourt.hub.domain.port.spi.ISmsSender;
 import com.foodcourt.hub.infrastructure.exceptionhandler.ExceptionResponse;
 import org.junit.jupiter.api.Test;
@@ -24,7 +24,7 @@ class CancelOrderUseCaseTest {
     IOrderPersistencePort orderPersistencePort;
 
     @Mock
-    IValidationOrdersPort validationOrdersPort;
+    IOrderTracingPersistencePort orderTracingPersistencePort;
 
     @Mock
     ISmsSender smsSender;
@@ -45,13 +45,13 @@ class CancelOrderUseCaseTest {
                 .build();
 
         when(orderPersistencePort.findByOrderId(orderId)).thenReturn(order);
-        when(validationOrdersPort.validateOrderStatusIsPending(order)).thenReturn(true);
 
         useCase.cancelOrder(orderId, clientId);
 
         assertEquals(OrderStatus.CANCELED, order.getStatus());
         verify(orderPersistencePort).saveOrder(order);
         verify(smsSender, never()).sendNotification();
+        verify(orderTracingPersistencePort).saveTracingOrder(order);
     }
 
 
@@ -107,14 +107,13 @@ class CancelOrderUseCaseTest {
                 .build();
 
         when(orderPersistencePort.findByOrderId(orderId)).thenReturn(order);
-        when(validationOrdersPort.validateOrderStatusIsPending(order)).thenReturn(false);
 
         ForbiddenException exception = assertThrows(
                 ForbiddenException.class,
                 () -> useCase.cancelOrder(orderId, clientId)
         );
 
-        assertEquals(ExceptionResponse.INVALID_CATEGORY.getMessage(), exception.getError().getMessage());
+        assertEquals(ExceptionResponse.INVALID_STATUS.getMessage(), exception.getError().getMessage());
 
         verify(smsSender).sendNotification();
         verify(orderPersistencePort, never()).saveOrder(any());

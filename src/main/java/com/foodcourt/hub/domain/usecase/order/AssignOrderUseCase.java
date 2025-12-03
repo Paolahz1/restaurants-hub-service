@@ -7,7 +7,6 @@ import com.foodcourt.hub.domain.model.OrderStatus;
 import com.foodcourt.hub.domain.port.api.order.IAssignOrderServicePort;
 import com.foodcourt.hub.domain.port.spi.IOrderPersistencePort;
 import com.foodcourt.hub.domain.port.spi.IOrderTracingPersistencePort;
-import com.foodcourt.hub.domain.port.spi.IValidationOrdersPort;
 import com.foodcourt.hub.domain.port.spi.IValidationUsersPort;
 import com.foodcourt.hub.infrastructure.exceptionhandler.ExceptionResponse;
 
@@ -17,16 +16,14 @@ public class AssignOrderUseCase implements IAssignOrderServicePort {
 
     private final IOrderPersistencePort persistencePort;
     private final IOrderTracingPersistencePort orderTracingPersistencePort;
-
-    private final IValidationOrdersPort validationOrdersPort;
     private final IValidationUsersPort validationUsersPort;
 
-    public AssignOrderUseCase(IOrderPersistencePort persistencePort, IOrderTracingPersistencePort orderTracingPersistencePort, IValidationOrdersPort validationOrdersPort, IValidationUsersPort validationUsersPort) {
+    public AssignOrderUseCase(IOrderPersistencePort persistencePort, IOrderTracingPersistencePort orderTracingPersistencePort, IValidationUsersPort validationUsersPort) {
         this.persistencePort = persistencePort;
         this.orderTracingPersistencePort = orderTracingPersistencePort;
-        this.validationOrdersPort = validationOrdersPort;
         this.validationUsersPort = validationUsersPort;
     }
+
 
     @Override
     public void assignOrder(long orderId, long employeeId) {
@@ -40,10 +37,10 @@ public class AssignOrderUseCase implements IAssignOrderServicePort {
             throw  new ForbiddenException(ExceptionResponse.INVALID_PERMISSION, Map.of("Employee id ", employeeId));
         }
 
-        if(!validationOrdersPort.validateOrderStatusIsPending(order)){
+        if(!order.isPending()){
             throw new ForbiddenException(
                     ExceptionResponse.INVALID_STATUS,
-                    Map.of("message", order.getStatus())
+                    Map.of("Current order status", order.getStatus())
             );
         }
         order.setStatus(OrderStatus.IN_PREPARATION);

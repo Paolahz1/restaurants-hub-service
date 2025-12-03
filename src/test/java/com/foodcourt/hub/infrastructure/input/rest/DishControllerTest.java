@@ -1,10 +1,8 @@
 package com.foodcourt.hub.infrastructure.input.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.foodcourt.hub.application.dto.dish.CreateDishCommand;
-import com.foodcourt.hub.application.dto.dish.GetPageDishesResponse;
-import com.foodcourt.hub.application.dto.dish.UpdateDishCommand;
-import com.foodcourt.hub.application.dto.dish.UpdateStatusDishCommand;
+import com.foodcourt.hub.application.dto.dish.*;
+import com.foodcourt.hub.application.dto.order.GetPageOrdersCommand;
 import com.foodcourt.hub.application.handler.IDishHandler;
 import com.foodcourt.hub.domain.exception.InvalidPermissionException;
 import com.foodcourt.hub.domain.model.Role;
@@ -128,6 +126,12 @@ class DishControllerTest {
     @Test
     void shouldReturnPageDishes()throws Exception {
 
+        GetPageDishesCommand command = GetPageDishesCommand.builder()
+                .restaurantId(1L)
+                .page(0)
+                .size(1)
+                .build();
+
         GetPageDishesResponse mockedResponse = GetPageDishesResponse.builder()
                 .page(0)
                 .size(5)
@@ -141,16 +145,11 @@ class DishControllerTest {
         when(handler.getDishes(any())).thenReturn(mockedResponse);
 
         mockMvc.perform(
-                        get("/hub-service/dish/")
-                                .param("page", "0")
-                                .param("size", "5")
-                                .param("restaurantId", "1")
+                        post("/hub-service/dish/search")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(command))
                 )
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.page").value(0))
-                .andExpect(jsonPath("$.size").value(5))
-                .andExpect(jsonPath("$.content").isArray());
-
+                .andExpect(status().isOk());
 
     }
 

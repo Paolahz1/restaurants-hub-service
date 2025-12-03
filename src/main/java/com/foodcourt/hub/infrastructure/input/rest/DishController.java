@@ -74,7 +74,7 @@ public class DishController {
     @Operation(summary = "Search dishes with filters", description = "Returns paginated dishes filtered by restaurant or category")
     @ApiResponse(responseCode = "200", description = "Dishes retrieved successfully")
     @PostMapping("/search")
-    public ResponseEntity<GetPageDishesResponse> getPageDishes(@Valid @RequestBody GetDishesCommand command) {
+    public ResponseEntity<GetPageDishesResponse> getPageDishes(@Valid @RequestBody GetPageDishesCommand command) {
         GetPageDishesResponse response = handler.getDishes(command);
         return ResponseEntity.ok(response);
     }

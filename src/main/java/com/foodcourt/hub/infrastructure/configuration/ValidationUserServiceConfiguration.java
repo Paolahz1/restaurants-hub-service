@@ -1,7 +1,7 @@
 package com.foodcourt.hub.infrastructure.configuration;
 
 import com.foodcourt.hub.domain.port.spi.*;
-import com.foodcourt.hub.domain.service.ValidationUsersService;
+import com.foodcourt.hub.infrastructure.output.validation.ValidationUsersService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

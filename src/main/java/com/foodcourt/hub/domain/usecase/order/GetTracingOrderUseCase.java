@@ -14,7 +14,6 @@ public class GetTracingOrderUseCase implements IGetTracingOrderServicePort {
         this.persistencePort = persistencePort;
     }
 
-
     @Override
     public List<Order> getTracingOrder(long orderId, long clientId) {
         return persistencePort.getTracingByClient(clientId);

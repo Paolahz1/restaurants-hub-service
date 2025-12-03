@@ -15,19 +15,6 @@ public class UserInfoRestAdapter implements IUserInfoPort {
     private final WebClient userServiceWebClient;
     private final TokenProviderService tokenProvider;
 
-    @Override
-    public String getUserRole(Long id) {
-        String token = tokenProvider.getToken();
-
-        RoleResponse response = userServiceWebClient.get()
-                .uri("/users/info/role/{id}", id)
-                .header("Authorization", "Bearer " + token )
-                .retrieve()
-                .bodyToMono(RoleResponse.class)
-                .block();
-
-        return response.getRole();
-    }
 
     @Override
     public long getEmployeeDetails(Long id) {

@@ -9,12 +9,11 @@ import lombok.Data;
 @Data
 @Builder
 
-public class GetDishesCommand {
+public class GetPageDishesCommand {
   @NotNull
   private Long restaurantId;
   @Min(0)
   private int page;
-  @Max(100)
   private int size;
   private String category;
 }

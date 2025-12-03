@@ -16,7 +16,7 @@ public class OrderBeanConfiguration {
     private final IOrderTracingPersistencePort orderTracingPersistencePort;
 
     private final IValidationUsersPort validationUsersPort;
-    private final IValidationOrdersPort validationOrdersPort;
+    private final IValidateDishesPort validationOrdersPort;
 
     private final IUserInfoPort userInfoPort;
     private final ISmsSender smsSender;
@@ -34,22 +34,22 @@ public class OrderBeanConfiguration {
 
     @Bean
     public IAssignOrderServicePort assignOrderServicePort(){
-        return  new AssignOrderUseCase(persistencePort, orderTracingPersistencePort, validationOrdersPort, validationUsersPort );
+        return  new AssignOrderUseCase(persistencePort, orderTracingPersistencePort, validationUsersPort );
     }
 
     @Bean
     public  IMarkOrderAsReadyServicePort markOrderAsReadyServicePort(){
-        return new MarkOrderAsReadyUseCase(persistencePort, validationOrdersPort, smsSender, orderTracingPersistencePort);
+        return new MarkOrderAsReadyUseCase(persistencePort, smsSender, orderTracingPersistencePort);
     }
 
     @Bean
     public IMarkOrderAsDeliveredServicePort markOrderAsDeliveredServicePort(){
-        return new MarkOrderAsDeliveredUseCase(persistencePort, validationOrdersPort, orderTracingPersistencePort);
+        return new MarkOrderAsDeliveredUseCase(persistencePort, orderTracingPersistencePort);
     }
 
     @Bean
     public  ICancelOrderServicePort cancelOrderServicePort(){
-        return new CancelOrderUseCase(persistencePort, validationOrdersPort, smsSender, orderTracingPersistencePort);
+        return new CancelOrderUseCase(persistencePort, smsSender, orderTracingPersistencePort);
     }
 
     @Bean
