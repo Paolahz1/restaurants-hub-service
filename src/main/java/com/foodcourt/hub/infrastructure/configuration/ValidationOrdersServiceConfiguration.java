@@ -1,8 +1,8 @@
 package com.foodcourt.hub.infrastructure.configuration;
 
 import com.foodcourt.hub.domain.port.spi.IDishPersistencePort;
-import com.foodcourt.hub.domain.port.spi.IValidationOrdersPort;
-import com.foodcourt.hub.domain.service.ValidationOrdersService;
+import com.foodcourt.hub.domain.port.spi.IValidateDishesPort;
+import com.foodcourt.hub.infrastructure.output.validation.ValidateDishesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +14,7 @@ public class ValidationOrdersServiceConfiguration {
 
     private final IDishPersistencePort persistencePort;
     @Bean
-    public IValidationOrdersPort validationOrdersPort(){
-        return new ValidationOrdersService(persistencePort);
+    public IValidateDishesPort validationOrdersPort(){
+        return new ValidateDishesService(persistencePort);
     }
 }

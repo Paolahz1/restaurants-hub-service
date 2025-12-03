@@ -38,6 +38,8 @@ class GetEmployeeEfficiencyRankingUseCaseTest {
     void shouldCalculateAverageEfficiencyPerEmployee() {
         long restaurantId = 1L;
 
+        List<Order> orders = List.of(Order.builder().build());
+        when(tracingPersistencePort.getTracingByRestaurant(restaurantId)).thenReturn(orders);
 
         List<OrderDuration> durations = List.of(
                 OrderDuration.builder().orderId(1L).employeeId(101L).durationInSeconds(300L).build(),
@@ -46,7 +48,7 @@ class GetEmployeeEfficiencyRankingUseCaseTest {
                 OrderDuration.builder().orderId(1L).employeeId(102L).durationInSeconds(200L).build()
         );
 
-        when(durationServicePort.calculateOrdersDuration(anyList())).thenReturn(durations);
+        when(durationServicePort.calculateOrdersDuration(orders)).thenReturn(durations);
 
         List<EmployeeEfficiency> result = useCase.getAverageOrderTracing(restaurantId);
 

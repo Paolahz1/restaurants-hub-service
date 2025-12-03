@@ -8,7 +8,6 @@ import com.foodcourt.hub.domain.port.api.order.IMarkOrderAsReadyServicePort;
 import com.foodcourt.hub.domain.port.spi.IOrderPersistencePort;
 import com.foodcourt.hub.domain.port.spi.IOrderTracingPersistencePort;
 import com.foodcourt.hub.domain.port.spi.ISmsSender;
-import com.foodcourt.hub.domain.port.spi.IValidationOrdersPort;
 import com.foodcourt.hub.infrastructure.exceptionhandler.ExceptionResponse;
 
 import java.util.Map;
@@ -17,18 +16,18 @@ import java.util.Random;
 public class MarkOrderAsReadyUseCase implements IMarkOrderAsReadyServicePort {
 
     private final IOrderPersistencePort persistencePort;
-    private final IValidationOrdersPort validationOrdersPort;
+    private final IOrderTracingPersistencePort orderTracingPersistencePort;
     private final ISmsSender smsSender;
 
-    private static final Random random = new Random();
-    private final IOrderTracingPersistencePort orderTracingPersistencePort;
 
-    public MarkOrderAsReadyUseCase(IOrderPersistencePort persistencePort, IValidationOrdersPort validationOrdersPort, ISmsSender smsSender, IOrderTracingPersistencePort orderTracingPersistencePort) {
+    private static final Random random = new Random();
+
+    public MarkOrderAsReadyUseCase(IOrderPersistencePort persistencePort, ISmsSender smsSender, IOrderTracingPersistencePort orderTracingPersistencePort) {
         this.persistencePort = persistencePort;
-        this.validationOrdersPort = validationOrdersPort;
         this.smsSender = smsSender;
         this.orderTracingPersistencePort = orderTracingPersistencePort;
     }
+
 
     @Override
     public void markOrderAsReady(long orderId, long employeeId ) {
@@ -45,7 +44,7 @@ public class MarkOrderAsReadyUseCase implements IMarkOrderAsReadyServicePort {
         order.setStatus(OrderStatus.READY);
         String pin = generateSecurityPin();
 
-        //smsSender.sendTheSecurityPin(pin);
+        smsSender.sendTheSecurityPin(pin);
         order.setSecurityPin(pin);
         persistencePort.saveOrder(order);
 
@@ -53,7 +52,7 @@ public class MarkOrderAsReadyUseCase implements IMarkOrderAsReadyServicePort {
     }
 
     private void validateOrderPermissions(Order order, long employeeId) {
-        if (!validationOrdersPort.ValidateOrderIsAssignedToEmployee(order, employeeId)) {
+        if (!order.isAssignedTo(employeeId)) {
             throw new ForbiddenException(
                     ExceptionResponse.INVALID_PERMISSION,
                     Map.of("This employee doesn't have the order assigned: ", employeeId));
@@ -61,7 +60,7 @@ public class MarkOrderAsReadyUseCase implements IMarkOrderAsReadyServicePort {
     }
 
     private void validateOrderStatus(Order order ) {
-        if (!validationOrdersPort.validateOrderStatusIsInPreparation(order)) {
+        if (!order.isInPreparation()) {
             throw new ForbiddenException(
                     ExceptionResponse.INVALID_STATUS,
                     Map.of("current order's status", order.getStatus()));

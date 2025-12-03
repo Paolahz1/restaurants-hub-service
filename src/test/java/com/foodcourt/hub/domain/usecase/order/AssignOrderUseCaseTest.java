@@ -6,7 +6,7 @@ import com.foodcourt.hub.domain.model.Order;
 import com.foodcourt.hub.domain.model.OrderItem;
 import com.foodcourt.hub.domain.model.OrderStatus;
 import com.foodcourt.hub.domain.port.spi.IOrderPersistencePort;
-import com.foodcourt.hub.domain.port.spi.IValidationOrdersPort;
+import com.foodcourt.hub.domain.port.spi.IOrderTracingPersistencePort;
 import com.foodcourt.hub.domain.port.spi.IValidationUsersPort;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,7 +18,6 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -29,9 +28,10 @@ class AssignOrderUseCaseTest {
     @Mock
     IOrderPersistencePort orderPersistencePort;
     @Mock
-    IValidationOrdersPort validationOrdersPort;
-    @Mock
     IValidationUsersPort validationUsersPort;
+
+    @Mock
+    IOrderTracingPersistencePort orderTracingPersistencePort;
 
     @InjectMocks
     AssignOrderUseCase useCase;
@@ -49,18 +49,20 @@ class AssignOrderUseCaseTest {
 
         Order mockOrder = Order.builder()
                 .restaurantId(1l)
+                .status(OrderStatus.PENDING)
                 .items(List.of(item))
                 .build();
 
         when(orderPersistencePort.findByOrderId(orderId)).thenReturn(mockOrder);
         when(validationUsersPort.validateEmployeeBelongsToRestaurant(mockOrder.getRestaurantId(), employeeId)).thenReturn(true);
-        when(validationOrdersPort.validateOrderStatusIsPending(any())).thenReturn(true);
 
         useCase.assignOrder(orderId, employeeId);
 
         assertEquals(OrderStatus.IN_PREPARATION, mockOrder.getStatus());
-        assertEquals(2l, mockOrder.getAssignedEmployeeId());
+        assertEquals(employeeId, mockOrder.getAssignedEmployeeId());
+
         verify(orderPersistencePort).saveOrder(mockOrder);
+        verify(orderTracingPersistencePort).saveTracingOrder(mockOrder);
     }
 
     @Test
@@ -76,7 +78,7 @@ class AssignOrderUseCaseTest {
 
         when(orderPersistencePort.findByOrderId(orderId)).thenReturn(mockOrder);
         when(validationUsersPort.validateEmployeeBelongsToRestaurant(mockOrder.getRestaurantId(), employeeId)).thenReturn(true);
-        when(validationOrdersPort.validateOrderStatusIsPending(mockOrder)).thenReturn(false);
+
 
         assertThrows(ForbiddenException.class, () -> useCase.assignOrder(orderId, employeeId));
     }

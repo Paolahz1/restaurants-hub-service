@@ -1,4 +1,4 @@
-package com.foodcourt.hub.domain.service;
+package com.foodcourt.hub.infrastructure.output.validation;
 
 import com.foodcourt.hub.domain.model.Dish;
 import com.foodcourt.hub.domain.model.Order;

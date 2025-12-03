@@ -6,7 +6,7 @@ import com.foodcourt.hub.domain.model.OrderStatus;
 import com.foodcourt.hub.domain.port.api.order.ICreateOrderServicePort;
 import com.foodcourt.hub.domain.port.spi.IOrderPersistencePort;
 import com.foodcourt.hub.domain.port.spi.IOrderTracingPersistencePort;
-import com.foodcourt.hub.domain.port.spi.IValidationOrdersPort;
+import com.foodcourt.hub.domain.port.spi.IValidateDishesPort;
 import com.foodcourt.hub.domain.port.spi.IValidationUsersPort;
 
 import java.time.LocalDateTime;
@@ -14,11 +14,11 @@ import java.time.LocalDateTime;
 public class CreateOrderUseCase implements ICreateOrderServicePort {
 
     private final IOrderPersistencePort persistencePort;
-    private final IValidationOrdersPort validationOrdersPort;
+    private final IValidateDishesPort validationOrdersPort;
     private final IValidationUsersPort validationUsersPort;
     private final IOrderTracingPersistencePort orderTracingPersistencePort;
 
-    public CreateOrderUseCase(IOrderPersistencePort persistencePort, IValidationOrdersPort validationOrdersPort, IValidationUsersPort validationUsersPort, IOrderTracingPersistencePort orderTracingPersistencePort) {
+    public CreateOrderUseCase(IOrderPersistencePort persistencePort, IValidateDishesPort validationOrdersPort, IValidationUsersPort validationUsersPort, IOrderTracingPersistencePort orderTracingPersistencePort) {
         this.persistencePort = persistencePort;
         this.validationOrdersPort = validationOrdersPort;
         this.validationUsersPort = validationUsersPort;

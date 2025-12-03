@@ -19,4 +19,23 @@ public class Order {
     private Instant timestamp;
     private Long assignedEmployeeId;
     private String securityPin;
+
+
+    public boolean isPending() {
+        return this.status == OrderStatus.PENDING;
+    }
+
+    public boolean isInPreparation() {
+        return this.status == OrderStatus.IN_PREPARATION;
+    }
+
+    public boolean isReady() {
+        return this.status == OrderStatus.READY;
+    }
+
+    public boolean isAssignedTo(long employeeId) {
+        return this.assignedEmployeeId != null &&
+                this.assignedEmployeeId.equals(employeeId);
+    }
+
 }

@@ -45,7 +45,6 @@ class CreateRestaurantUseCaseTest {
         Restaurant restaurant = createValidRestaurant();
 
         when(persistencePort.existsByNit(restaurant.getNit())).thenReturn(false);
-        when(verificationPort.getUserRole(restaurant.getOwnerId())).thenReturn("OWNER");
         when(persistencePort.saveRestaurant(restaurant)).thenReturn(restaurant);
 
         useCase.create(restaurant);
@@ -53,23 +52,11 @@ class CreateRestaurantUseCaseTest {
         verify(persistencePort).saveRestaurant(restaurant);
     }
 
-    @Test
-    void shouldThrowUserIsNotOwnerException() {
-        Restaurant restaurant = createValidRestaurant();
-
-        when(verificationPort.getUserRole(restaurant.getOwnerId())).thenReturn("EMPLOYEE");
-
-        assertThrows(UserIsNotOwnerException.class, () -> useCase.create(restaurant));
-        verify(persistencePort, never()).saveRestaurant(any());
-    }
-
 
     @Test
     void shouldThrowInvalidPhoneNumberException() {
         Restaurant restaurant = createValidRestaurant();
         restaurant.setPhoneNumber("123ABC");
-
-        when(verificationPort.getUserRole(restaurant.getOwnerId())).thenReturn("OWNER");
 
         assertThrows(InvalidPhoneNumberException.class, () -> useCase.create(restaurant));
         verify(persistencePort, never()).saveRestaurant(any());
@@ -79,7 +66,7 @@ class CreateRestaurantUseCaseTest {
     void shouldThrowDatabaseExceptionOnDataIntegrityViolation() {
         Restaurant restaurant = createValidRestaurant();
 
-        when(verificationPort.getUserRole(restaurant.getOwnerId())).thenReturn("OWNER");
+
         when(persistencePort.existsByNit(restaurant.getNit())).thenReturn(false);
         when(persistencePort.saveRestaurant(restaurant)).thenThrow(DataIntegrityViolationException.class);
 
@@ -90,7 +77,7 @@ class CreateRestaurantUseCaseTest {
     void shouldThrowDatabaseExceptionOnTransactionSystemException() {
         Restaurant restaurant = createValidRestaurant();
 
-        when(verificationPort.getUserRole(restaurant.getOwnerId())).thenReturn("OWNER");
+
         when(persistencePort.existsByNit(restaurant.getNit())).thenReturn(false);
         when(persistencePort.saveRestaurant(restaurant)).thenThrow(TransactionSystemException.class);
 

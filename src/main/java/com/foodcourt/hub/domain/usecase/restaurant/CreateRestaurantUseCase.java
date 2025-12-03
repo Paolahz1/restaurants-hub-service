@@ -11,19 +11,14 @@ import org.springframework.transaction.TransactionSystemException;
 public class CreateRestaurantUseCase implements ICreateRestaurantServicePort {
 
     private final IRestaurantPersistencePort restaurantPersistencePort;
-    private final IUserInfoPort userVerificationPort;
 
-
-    public CreateRestaurantUseCase(IRestaurantPersistencePort persistencePort, IUserInfoPort userVerificationPort) {
+    public CreateRestaurantUseCase(IRestaurantPersistencePort persistencePort ) {
         this.restaurantPersistencePort = persistencePort;
-        this.userVerificationPort = userVerificationPort;
     }
-
 
     @Override
     public Restaurant create(Restaurant restaurant) {
 
-        validateOwner(restaurant.getOwnerId());
         validateNitFormat(restaurant.getNit());
         validatePhone(restaurant.getPhoneNumber());
         validateName(restaurant.getName());
@@ -31,21 +26,12 @@ public class CreateRestaurantUseCase implements ICreateRestaurantServicePort {
         if (restaurantPersistencePort.existsByNit(restaurant.getNit())) {
             throw new NitAlreadyExistsException();
         }
-
         try {
             return restaurantPersistencePort.saveRestaurant(restaurant);
          } catch (DataIntegrityViolationException | TransactionSystemException e) {
             throw new DatabaseException();
         }
 
-    }
-
-    private void validateOwner(Long ownerId) {
-        //Lo pide al otro MS
-        String role = userVerificationPort.getUserRole(ownerId);
-        if (!"OWNER".equalsIgnoreCase(role)) {
-            throw new UserIsNotOwnerException();
-        }
     }
 
     private void validateNitFormat(String nit) {

@@ -5,8 +5,6 @@ import com.foodcourt.hub.domain.model.OrderDuration;
 import com.foodcourt.hub.domain.model.OrderStatus;
 import com.foodcourt.hub.domain.port.spi.IOrderDurationServicePort;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.Instant;
 import java.util.List;
@@ -14,7 +12,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
-@ExtendWith(MockitoExtension.class)
 class OrderDurationServicePortTest {
 
     private final IOrderDurationServicePort servicePort = new OrderDurationServicePort();

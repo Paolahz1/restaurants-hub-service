@@ -5,7 +5,6 @@ import com.foodcourt.hub.domain.exception.NotFoundException;
 import com.foodcourt.hub.domain.model.Order;
 import com.foodcourt.hub.domain.model.OrderStatus;
 import com.foodcourt.hub.domain.port.spi.IOrderPersistencePort;
-import com.foodcourt.hub.domain.port.spi.IValidationOrdersPort;
 import com.foodcourt.hub.infrastructure.exceptionhandler.ExceptionResponse;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,8 +21,6 @@ class MarkOrderAsDeliveredUseCaseTest {
 
     @Mock
     IOrderPersistencePort orderPersistencePort;
-    @Mock
-    IValidationOrdersPort validationOrdersPort;
 
     @InjectMocks
     MarkOrderAsDeliveredUseCase useCase;
@@ -43,8 +40,6 @@ class MarkOrderAsDeliveredUseCaseTest {
                 .build();
 
         when(orderPersistencePort.findByOrderId(orderId)).thenReturn(mockOrder);
-        when(validationOrdersPort.validateOrderStatusIsReady(mockOrder)).thenReturn(true);
-        when(validationOrdersPort.ValidateOrderIsAssignedToEmployee(mockOrder, employeeId)).thenReturn(true);
 
         useCase.markOrderAsDelivered(orderId, employeeId, pin);
 
@@ -80,7 +75,6 @@ class MarkOrderAsDeliveredUseCaseTest {
 
         when(orderPersistencePort.findByOrderId(orderId)).thenReturn(mockOrder);
 
-
         ForbiddenException exception = assertThrows(ForbiddenException.class,
                 () -> useCase.markOrderAsDelivered(orderId, employeeId, pin));
 
@@ -96,12 +90,11 @@ class MarkOrderAsDeliveredUseCaseTest {
         Order mockOrder = Order.builder()
                 .id(orderId)
                 .status(OrderStatus.READY)
+                .assignedEmployeeId(employeeId)
                 .securityPin("1234")
                 .build();
 
         when(orderPersistencePort.findByOrderId(orderId)).thenReturn(mockOrder);
-        when(validationOrdersPort.validateOrderStatusIsReady(mockOrder)).thenReturn(true);
-        when(validationOrdersPort.ValidateOrderIsAssignedToEmployee(mockOrder, employeeId)).thenReturn(true);
 
         ForbiddenException exception = assertThrows(ForbiddenException.class,
                 () -> useCase.markOrderAsDelivered(orderId, employeeId, pin));

@@ -47,7 +47,7 @@ public class DishHandler implements IDishHandler{
     }
 
     @Override
-    public GetPageDishesResponse getDishes(GetDishesCommand command) {
+    public GetPageDishesResponse getDishes(GetPageDishesCommand command) {
 
         Category category = pageDishesMapper.map(command.getCategory());
         PageModel<Dish> pageDish = getPageDishesServicePort.getPage(command.getPage(), command.getSize(), command.getRestaurantId(), category);

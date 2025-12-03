@@ -22,7 +22,7 @@ import static org.mockito.Mockito.when;
 class GetOrdersDurationForRestaurantUseCaseTest {
 
     @Mock
-    IOrderTracingPersistencePort persistencePort;
+    IOrderTracingPersistencePort orderTracingPersistencePort;
 
     @Mock
     IOrderDurationServicePort servicePort;
@@ -42,7 +42,7 @@ class GetOrdersDurationForRestaurantUseCaseTest {
                 .durationInSeconds(300L)
                 .build();
 
-        when(persistencePort.getTracingByRestaurant(restaurantId)).thenReturn(mockTracingOrders);
+        when(orderTracingPersistencePort.getTracingByRestaurant(restaurantId)).thenReturn(mockTracingOrders);
         when(servicePort.calculateOrdersDuration(mockTracingOrders)).thenReturn(List.of(duration));
         List<OrderDuration> result = useCase.getOrdersDuration(restaurantId);
 
@@ -59,7 +59,7 @@ class GetOrdersDurationForRestaurantUseCaseTest {
 
         List<Order> mockTracingOrders = List.of(Order.builder().build());
 
-        when(persistencePort.getTracingByRestaurant(restaurantId)).thenReturn(mockTracingOrders);
+        when(orderTracingPersistencePort.getTracingByRestaurant(restaurantId)).thenReturn(mockTracingOrders);
         when(servicePort.calculateOrdersDuration(mockTracingOrders)).thenReturn(List.of());
 
         assertThrows(NotFoundException.class, () -> useCase.getOrdersDuration(restaurantId));
