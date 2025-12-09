@@ -19,5 +19,6 @@ public class GetPageRestaurantsUseCase implements IGetPageRestaurantsServicePort
     public PageModel<Restaurant> getPage(int page, int size) {
 
         return persistencePort.getRestaurants(page, size);
+
     }
 }

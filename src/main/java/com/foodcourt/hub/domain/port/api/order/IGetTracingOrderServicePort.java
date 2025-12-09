@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface IGetTracingOrderServicePort {
 
-    List<Order> getTracingOrder(long orderId, long clientId);
+    List<Order> getTracingOrder(Long clientId, Long orderId);
 
 }

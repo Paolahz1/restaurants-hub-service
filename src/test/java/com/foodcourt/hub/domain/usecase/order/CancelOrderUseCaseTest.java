@@ -4,9 +4,11 @@ import com.foodcourt.hub.domain.exception.ForbiddenException;
 import com.foodcourt.hub.domain.exception.NotFoundException;
 import com.foodcourt.hub.domain.model.Order;
 import com.foodcourt.hub.domain.model.OrderStatus;
+import com.foodcourt.hub.domain.model.User;
 import com.foodcourt.hub.domain.port.spi.IOrderPersistencePort;
 import com.foodcourt.hub.domain.port.spi.IOrderTracingPersistencePort;
 import com.foodcourt.hub.domain.port.spi.ISmsSender;
+import com.foodcourt.hub.domain.port.spi.IUserInfoPort;
 import com.foodcourt.hub.infrastructure.exceptionhandler.ExceptionResponse;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,6 +31,9 @@ class CancelOrderUseCaseTest {
     @Mock
     ISmsSender smsSender;
 
+    @Mock
+    IUserInfoPort userInfoPort;
+
     @InjectMocks
     CancelOrderUseCase useCase;
 
@@ -44,13 +49,18 @@ class CancelOrderUseCaseTest {
                 .status(OrderStatus.PENDING)
                 .build();
 
+        User mockUser= User.builder()
+                .phoneNumber("3168455043")
+                .build();
+
         when(orderPersistencePort.findByOrderId(orderId)).thenReturn(order);
+        when(userInfoPort.getUserById(clientId)).thenReturn(mockUser);
 
         useCase.cancelOrder(orderId, clientId);
 
         assertEquals(OrderStatus.CANCELED, order.getStatus());
         verify(orderPersistencePort).saveOrder(order);
-        verify(smsSender, never()).sendNotification();
+        verify(smsSender, never()).sendNotification("3168455043");
         verify(orderTracingPersistencePort).saveTracingOrder(order);
     }
 
@@ -100,6 +110,11 @@ class CancelOrderUseCaseTest {
         long orderId = 1L;
         long clientId = 10L;
 
+
+        User mockUser= User.builder()
+                .phoneNumber("3168455043")
+                .build();
+
         Order order = Order.builder()
                 .id(orderId)
                 .clientId(clientId)
@@ -107,6 +122,7 @@ class CancelOrderUseCaseTest {
                 .build();
 
         when(orderPersistencePort.findByOrderId(orderId)).thenReturn(order);
+        when(userInfoPort.getUserById(clientId)).thenReturn(mockUser);
 
         ForbiddenException exception = assertThrows(
                 ForbiddenException.class,
@@ -115,7 +131,7 @@ class CancelOrderUseCaseTest {
 
         assertEquals(ExceptionResponse.INVALID_STATUS.getMessage(), exception.getError().getMessage());
 
-        verify(smsSender).sendNotification();
+        verify(smsSender).sendNotification("3168455043");
         verify(orderPersistencePort, never()).saveOrder(any());
     }
 }

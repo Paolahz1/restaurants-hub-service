@@ -2,7 +2,7 @@ package com.foodcourt.hub.infrastructure.input.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.foodcourt.hub.application.dto.order.GetEmployeeRankingResponse;
-import com.foodcourt.hub.application.dto.order.GetOrderDurationResponse;
+import com.foodcourt.hub.application.dto.order.GetTracingOrderDurationResponse;
 import com.foodcourt.hub.application.dto.order.GetTracingOrderByClientResponse;
 import com.foodcourt.hub.application.dto.order.TracingOrderResponse;
 import com.foodcourt.hub.application.handler.IOrderHandler;
@@ -81,6 +81,7 @@ class OrderTracingControllerTest {
     @Test
     void shouldGetTracingOrderByRestaurant() throws Exception {
         long restaurantId = 5L;
+        long ownerId = 1l;
         UserPrincipal principal = new UserPrincipal(20L, "owner@mail.com", Role.OWNER);
         SecurityContextHolder.getContext().setAuthentication(
                 new UsernamePasswordAuthenticationToken(
@@ -88,11 +89,11 @@ class OrderTracingControllerTest {
                 )
         );
 
-        GetOrderDurationResponse mockResponse = GetOrderDurationResponse.builder()
+        GetTracingOrderDurationResponse mockResponse = GetTracingOrderDurationResponse.builder()
                 .restaurantId(restaurantId)
                 .build();
 
-        when(handler.getOrderDuration(restaurantId)).thenReturn(mockResponse);
+        when(handler.getOrderDuration(restaurantId, ownerId)).thenReturn(mockResponse);
 
         mockMvc.perform(
                         get("/hub-service/tracing/restaurantId/{restaurantId}", restaurantId)
@@ -101,12 +102,14 @@ class OrderTracingControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.restaurantId").value(restaurantId));
 
-        verify(handler).getOrderDuration(restaurantId);
+        verify(handler).getOrderDuration(restaurantId, ownerId);
     }
 
     @Test
     void shouldGetRankingEmployees() throws Exception {
         long restaurantId = 5L;
+        long ownerId = 1l;
+
         UserPrincipal principal = new UserPrincipal(20L, "owner@mail.com", Role.OWNER);
         SecurityContextHolder.getContext().setAuthentication(
                 new UsernamePasswordAuthenticationToken(
@@ -118,7 +121,7 @@ class OrderTracingControllerTest {
                 .restaurantId(restaurantId)
                 .build();
 
-        when(handler.getEmployeeRanking(restaurantId)).thenReturn(mockResponse);
+        when(handler.getEmployeeRanking(restaurantId, ownerId)).thenReturn(mockResponse);
 
         mockMvc.perform(
                         get("/hub-service/tracing/restaurant/ranking/{restaurantId}", restaurantId)
@@ -127,6 +130,6 @@ class OrderTracingControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.restaurantId").value(restaurantId));
 
-        verify(handler).getEmployeeRanking(restaurantId);
+        verify(handler).getEmployeeRanking(restaurantId, ownerId);
     }
 }

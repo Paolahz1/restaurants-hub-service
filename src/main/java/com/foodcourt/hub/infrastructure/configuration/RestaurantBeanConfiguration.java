@@ -15,10 +15,11 @@ import org.springframework.context.annotation.Configuration;
 public class RestaurantBeanConfiguration {
 
     private final IRestaurantPersistencePort persistencePort;
+    private final IUserInfoPort userInfoPort;
 
     @Bean
     public ICreateRestaurantServicePort createRestaurantServicePort() {
-        return new CreateRestaurantUseCase(persistencePort);
+        return new CreateRestaurantUseCase(persistencePort, userInfoPort);
     }
 
     @Bean

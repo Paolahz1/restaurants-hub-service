@@ -56,7 +56,7 @@ class MarkOrderAsReadyUseCaseTest {
         assertTrue(mockOrder.getSecurityPin().matches("\\d{4}"));
 
         verify(orderPersistencePort).saveOrder(mockOrder);
-        verify(smsSender).sendTheSecurityPin(mockOrder.getSecurityPin());
+        verify(smsSender).sendTheSecurityPin(mockOrder.getSecurityPin(), "3165004441");
         verify(orderTracingPersistencePort).saveTracingOrder(mockOrder);
 
     }

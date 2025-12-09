@@ -1,8 +1,10 @@
 package com.foodcourt.hub.infrastructure.output.rest.adapter;
 
+import com.foodcourt.hub.domain.model.User;
 import com.foodcourt.hub.domain.port.spi.IUserInfoPort;
 import com.foodcourt.hub.infrastructure.output.rest.dto.EmployeeDetailsResponse;
-import com.foodcourt.hub.infrastructure.output.rest.dto.RoleResponse;
+import com.foodcourt.hub.infrastructure.output.rest.dto.UserResponse;
+import com.foodcourt.hub.infrastructure.output.rest.mapper.UserResponseMapper;
 import com.foodcourt.hub.infrastructure.security.TokenProviderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -15,6 +17,7 @@ public class UserInfoRestAdapter implements IUserInfoPort {
     private final WebClient userServiceWebClient;
     private final TokenProviderService tokenProvider;
 
+    private final UserResponseMapper mapper;
 
     @Override
     public long getEmployeeDetails(Long id) {
@@ -26,5 +29,17 @@ public class UserInfoRestAdapter implements IUserInfoPort {
                 .bodyToMono(EmployeeDetailsResponse.class)
                 .block();
         return response.getRestaurantId();
+    }
+
+    @Override
+    public User getUserById(Long id) {
+        String token = tokenProvider.getToken();
+        UserResponse response = userServiceWebClient.get()
+                .uri("/users/info/byId/{id}", id)
+                .header("Authorization", "Bearer " + token )
+                .retrieve()
+                .bodyToMono(UserResponse.class)
+                .block();
+        return mapper.toDomain(response);
     }
 }

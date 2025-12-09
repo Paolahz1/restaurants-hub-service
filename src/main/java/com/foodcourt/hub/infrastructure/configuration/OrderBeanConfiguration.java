@@ -39,7 +39,7 @@ public class OrderBeanConfiguration {
 
     @Bean
     public  IMarkOrderAsReadyServicePort markOrderAsReadyServicePort(){
-        return new MarkOrderAsReadyUseCase(persistencePort, smsSender, orderTracingPersistencePort);
+        return new MarkOrderAsReadyUseCase(persistencePort, smsSender, orderTracingPersistencePort, userInfoPort);
     }
 
     @Bean
@@ -49,12 +49,12 @@ public class OrderBeanConfiguration {
 
     @Bean
     public  ICancelOrderServicePort cancelOrderServicePort(){
-        return new CancelOrderUseCase(persistencePort, smsSender, orderTracingPersistencePort);
+        return new CancelOrderUseCase(persistencePort, smsSender, orderTracingPersistencePort, userInfoPort);
     }
 
     @Bean
     public IGetTracingOrderServicePort getTracingOrderServicePort(){
-        return new GetTracingOrderUseCase(orderTracingPersistencePort);
+        return new GetTracingOrderUseCase(orderTracingPersistencePort,persistencePort);
     }
 
     @Bean
@@ -64,11 +64,11 @@ public class OrderBeanConfiguration {
 
     @Bean
     public  IGetOrdersDurationForRestaurantServicePort getOrdersDurationForRestaurantServicePort( IOrderDurationServicePort orderDurationServicePort){
-        return new GetOrdersDurationForRestaurantUseCase(orderTracingPersistencePort, orderDurationServicePort );
+        return new GetOrdersDurationForRestaurantUseCase(orderTracingPersistencePort, orderDurationServicePort, validationUsersPort);
     }
 
     @Bean
     public  IGetEmployeeAverageServicePort getEmployeeAverageServicePort(IOrderDurationServicePort orderDurationServicePort){
-        return new GetEmployeeEfficiencyRankingUseCase(orderDurationServicePort, orderTracingPersistencePort);
+        return new GetEmployeeEfficiencyRankingUseCase(orderDurationServicePort, orderTracingPersistencePort, validationUsersPort);
     }
 }

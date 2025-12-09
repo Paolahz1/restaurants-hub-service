@@ -9,7 +9,7 @@ public interface IOrderHandler {
     void markOrderAsReady(long orderId, long employeeId);
     void markOrderAsDelivered(MarkOrderAsDeliveredCommand command, long employeeId);
     void cancelOrder(long orderId, long clientId);
-    GetTracingOrderByClientResponse getTracingOrderByClient(long orderId, long clientId);
-    GetOrderDurationResponse getOrderDuration(long restaurantId);
-    GetEmployeeRankingResponse getEmployeeRanking(long restaurantId);
+    GetTracingOrderByClientResponse getTracingOrderByClient( Long clientId, Long orderId);
+    GetTracingOrderDurationResponse getOrderDuration(long restaurantId, long ownerId);
+    GetEmployeeRankingResponse getEmployeeRanking(long restaurantId, long ownerId);
 }

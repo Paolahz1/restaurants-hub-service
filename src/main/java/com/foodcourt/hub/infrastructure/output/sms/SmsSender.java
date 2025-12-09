@@ -17,10 +17,14 @@ public class SmsSender implements ISmsSender {
     private String authToken;
 
     @Override
-    public void sendTheSecurityPin(String pin) {
+    public void sendTheSecurityPin(String pin, String phone) {
         Twilio.init(accountSid, authToken);
 
-        Message message = Message.creator(
+        String formattedPhone = validateAndFormatPhone(phone);
+
+        System.out.println("Phone: " + formattedPhone);
+
+        Message.creator(
                         new PhoneNumber("+573168455043"),
                         new PhoneNumber("+18502900758"),
                         "¡Tu pedido está listo! Tu código de seguridad es: " + pin)
@@ -28,13 +32,25 @@ public class SmsSender implements ISmsSender {
     }
 
     @Override
-    public void sendNotification() {
+    public void sendNotification(String phone) {
         Twilio.init(accountSid, authToken);
 
-        Message message = Message.creator(
+        String formattedPhone = validateAndFormatPhone(phone);
+
+        Message.creator(
                         new PhoneNumber("+573168455043"),
                         new PhoneNumber("+18502900758"),
                         "Lo sentimos, tu pedido ya está en preparación y no puede cancelarse")
                 .create();
+    }
+
+
+    private String validateAndFormatPhone(String phone) {
+
+        if (!phone.startsWith("+57")) {
+            return "+57" + phone;
+        }
+
+        return phone;
     }
 }

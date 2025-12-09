@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+
 import java.util.List;
 
 @Component
@@ -36,9 +37,9 @@ public class TracingPersistenceServiceRestAdapter implements IOrderTracingPersis
     }
 
     @Override
-    public List<Order> getTracingByClient(long clientId) {
+    public List<Order> getTracingByClientAndOrderId(Long client, Long orderId) {
         List<OrderTracingResponse> orderTracingResponseList = tracingServiceWebClient.get()
-                .uri("/client/{clientId}", clientId)
+                .uri("/client/{clientId}/order/{orderId}", client, orderId)
                 .retrieve()
                 .onStatus(status -> status.is4xxClientError() || status.is5xxServerError(),
                         clientResponse -> clientResponse.createException().flatMap(Mono::error))
@@ -46,7 +47,7 @@ public class TracingPersistenceServiceRestAdapter implements IOrderTracingPersis
                 .collectList()
                 .block();
 
-        return mapper.toDomainList(orderTracingResponseList);
+        return orderTracingResponseList.isEmpty() ?  List.of() : mapper.toDomainList(orderTracingResponseList) ;
     }
 
     @Override
@@ -60,7 +61,7 @@ public class TracingPersistenceServiceRestAdapter implements IOrderTracingPersis
                 .collectList()
                 .block();
 
-        return mapper.toDomainList(orderTracingResponseList);
+        return orderTracingResponseList.isEmpty() ? List.of() : mapper.toDomainList(orderTracingResponseList);
 
     }
 }

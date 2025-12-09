@@ -71,8 +71,8 @@ public class OrderHandler implements IOrderHandler{
     }
 
     @Override
-    public GetTracingOrderByClientResponse getTracingOrderByClient(long orderId, long clientId) {
-        List<Order> orders = getTracingOrderServicePort.getTracingOrder(orderId, clientId);
+    public GetTracingOrderByClientResponse getTracingOrderByClient(Long clientId, Long orderId) {
+        List<Order> orders = getTracingOrderServicePort.getTracingOrder( clientId, orderId);
         List<TracingOrderResponse> tracingOrderResponses = tracingOrderMapper.toTracingOrderResponseList(orders);
 
 
@@ -84,18 +84,18 @@ public class OrderHandler implements IOrderHandler{
     }
 
     @Override
-    public GetOrderDurationResponse getOrderDuration(long restaurantId) {
-        List<OrderDuration> orders = durationForRestaurantServicePort.getOrdersDuration(restaurantId);
+    public GetTracingOrderDurationResponse getOrderDuration(long restaurantId, long ownerId) {
+        List<OrderDuration> orders = durationForRestaurantServicePort.getOrdersDuration(restaurantId, ownerId);
 
-        return GetOrderDurationResponse.builder()
+        return GetTracingOrderDurationResponse.builder()
                 .restaurantId(restaurantId)
                 .orders(orders).build();
     }
 
 
     @Override
-    public GetEmployeeRankingResponse getEmployeeRanking(long restaurantId) {
-        List<EmployeeEfficiency> efficiencies = employeeAverageServicePort.getAverageOrderTracing(restaurantId);
+    public GetEmployeeRankingResponse getEmployeeRanking(long restaurantId, long ownerId) {
+        List<EmployeeEfficiency> efficiencies = employeeAverageServicePort.getAverageOrderTracing(restaurantId, ownerId);
         return GetEmployeeRankingResponse.builder()
                 .restaurantId(restaurantId)
                 .employeeEfficiencies(efficiencies)

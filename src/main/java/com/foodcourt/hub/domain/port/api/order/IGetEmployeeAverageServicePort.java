@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface IGetEmployeeAverageServicePort {
 
-    List<EmployeeEfficiency> getAverageOrderTracing(long restaurantId);
+    List<EmployeeEfficiency> getAverageOrderTracing(long restaurantId, long ownerId);
 }
