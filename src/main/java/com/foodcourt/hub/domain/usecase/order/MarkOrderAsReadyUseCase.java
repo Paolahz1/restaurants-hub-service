@@ -8,7 +8,7 @@ import com.foodcourt.hub.domain.model.User;
 import com.foodcourt.hub.domain.port.api.order.IMarkOrderAsReadyServicePort;
 import com.foodcourt.hub.domain.port.spi.IOrderPersistencePort;
 import com.foodcourt.hub.domain.port.spi.IOrderTracingPersistencePort;
-import com.foodcourt.hub.domain.port.spi.ISmsSender;
+import com.foodcourt.hub.domain.port.spi.ISmsSenderPort;
 import com.foodcourt.hub.domain.port.spi.IUserInfoPort;
 import com.foodcourt.hub.infrastructure.exceptionhandler.ExceptionResponse;
 
@@ -19,12 +19,12 @@ public class MarkOrderAsReadyUseCase implements IMarkOrderAsReadyServicePort {
 
     private final IOrderPersistencePort persistencePort;
     private final IOrderTracingPersistencePort orderTracingPersistencePort;
-    private final ISmsSender smsSender;
+    private final ISmsSenderPort smsSender;
     private final IUserInfoPort userInfoPort;
 
     private static final Random random = new Random();
 
-    public MarkOrderAsReadyUseCase(IOrderPersistencePort persistencePort, ISmsSender smsSender, IOrderTracingPersistencePort orderTracingPersistencePort, IUserInfoPort userInfoPort) {
+    public MarkOrderAsReadyUseCase(IOrderPersistencePort persistencePort, ISmsSenderPort smsSender, IOrderTracingPersistencePort orderTracingPersistencePort, IUserInfoPort userInfoPort) {
         this.persistencePort = persistencePort;
         this.smsSender = smsSender;
         this.orderTracingPersistencePort = orderTracingPersistencePort;

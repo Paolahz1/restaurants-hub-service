@@ -6,7 +6,7 @@ import com.foodcourt.hub.domain.model.Order;
 import com.foodcourt.hub.domain.model.OrderStatus;
 import com.foodcourt.hub.domain.port.spi.IOrderPersistencePort;
 import com.foodcourt.hub.domain.port.spi.IOrderTracingPersistencePort;
-import com.foodcourt.hub.domain.port.spi.ISmsSender;
+import com.foodcourt.hub.domain.port.spi.ISmsSenderPort;
 import com.foodcourt.hub.infrastructure.exceptionhandler.ExceptionResponse;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,7 +24,7 @@ class MarkOrderAsReadyUseCaseTest {
     IOrderPersistencePort orderPersistencePort;
 
     @Mock
-    ISmsSender smsSender;
+    ISmsSenderPort smsSender;
 
     @Mock
     IOrderTracingPersistencePort orderTracingPersistencePort;

@@ -19,7 +19,7 @@ public class OrderBeanConfiguration {
     private final IValidateDishesPort validationOrdersPort;
 
     private final IUserInfoPort userInfoPort;
-    private final ISmsSender smsSender;
+    private final ISmsSenderPort smsSender;
 
 
     @Bean

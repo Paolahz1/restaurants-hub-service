@@ -8,7 +8,7 @@ import com.foodcourt.hub.domain.model.User;
 import com.foodcourt.hub.domain.port.api.order.ICancelOrderServicePort;
 import com.foodcourt.hub.domain.port.spi.IOrderPersistencePort;
 import com.foodcourt.hub.domain.port.spi.IOrderTracingPersistencePort;
-import com.foodcourt.hub.domain.port.spi.ISmsSender;
+import com.foodcourt.hub.domain.port.spi.ISmsSenderPort;
 
 import com.foodcourt.hub.domain.port.spi.IUserInfoPort;
 import com.foodcourt.hub.infrastructure.exceptionhandler.ExceptionResponse;
@@ -18,11 +18,11 @@ import java.util.Map;
 public class CancelOrderUseCase implements ICancelOrderServicePort {
 
     private final IOrderPersistencePort persistencePort;
-    private final ISmsSender smsSender;
+    private final ISmsSenderPort smsSender;
     private final IOrderTracingPersistencePort orderTracingPersistencePort;
     private final IUserInfoPort userInfoPort;
 
-    public CancelOrderUseCase(IOrderPersistencePort persistencePort, ISmsSender smsSender, IOrderTracingPersistencePort orderTracingPersistencePort, IUserInfoPort userInfoPort) {
+    public CancelOrderUseCase(IOrderPersistencePort persistencePort, ISmsSenderPort smsSender, IOrderTracingPersistencePort orderTracingPersistencePort, IUserInfoPort userInfoPort) {
         this.persistencePort = persistencePort;
         this.smsSender = smsSender;
         this.orderTracingPersistencePort = orderTracingPersistencePort;
