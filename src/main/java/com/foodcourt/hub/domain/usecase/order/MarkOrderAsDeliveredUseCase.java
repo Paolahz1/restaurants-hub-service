@@ -31,8 +31,8 @@ public class MarkOrderAsDeliveredUseCase implements IMarkOrderAsDeliveredService
             throw new NotFoundException(ExceptionResponse.ORDER_NOT_FOUND, Map.of("OrderId", orderId));
         }
 
-        validateOrderStatus(order);
         validateOrderPermissions(order, employeeId);
+        validateOrderStatus(order);
         validateSentPin(order, pin);
 
         order.setStatus(OrderStatus.DELIVERED);

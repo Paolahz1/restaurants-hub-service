@@ -37,11 +37,9 @@ public class OrderTracingController {
             @PathVariable long orderId, @AuthenticationPrincipal UserPrincipal principal) {
 
         long clientId = principal.id();
-        GetTracingOrderByClientResponse response = handler.getTracingOrderByClient(orderId, clientId);
+        GetTracingOrderByClientResponse response = handler.getTracingOrderByClient( clientId, orderId);
         return ResponseEntity.ok(response);
     }
-
-
 
 
     @Operation(
@@ -54,14 +52,13 @@ public class OrderTracingController {
 
     @GetMapping("/restaurantId/{restaurantId}")
     @PreAuthorize("hasRole('OWNER')")
-    public ResponseEntity<GetOrderDurationResponse> getTracingOrderByRestaurant(
+    public ResponseEntity<GetTracingOrderDurationResponse> getTracingOrderByRestaurant(
             @PathVariable long restaurantId, @AuthenticationPrincipal UserPrincipal principal) {
 
         long ownerId = principal.id();
-        GetOrderDurationResponse response = handler.getOrderDuration(restaurantId);
+        GetTracingOrderDurationResponse response = handler.getOrderDuration(restaurantId, ownerId);
         return ResponseEntity.ok(response);
     }
-
 
 
     @Operation(
@@ -79,7 +76,7 @@ public class OrderTracingController {
             @PathVariable long restaurantId, @AuthenticationPrincipal UserPrincipal principal) {
 
         long ownerId = principal.id();
-        GetEmployeeRankingResponse response = handler.getEmployeeRanking(restaurantId);
+        GetEmployeeRankingResponse response = handler.getEmployeeRanking(restaurantId, ownerId);
         return ResponseEntity.ok(response);
     }
 }

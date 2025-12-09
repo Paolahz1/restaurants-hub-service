@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface IGetOrdersDurationForRestaurantServicePort {
 
-    List<OrderDuration> getOrdersDuration(long restaurantId);
+    List<OrderDuration> getOrdersDuration(long restaurantId, long ownerId);
 }

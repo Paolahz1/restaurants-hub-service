@@ -1,6 +1,5 @@
 package com.foodcourt.hub.infrastructure.exceptionhandler;
 
-
 import java.time.Instant;
 import java.util.Map;
 

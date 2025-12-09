@@ -8,7 +8,7 @@ import java.util.List;
 
 @Data
 @Builder
-public class GetOrderDurationResponse {
+public class GetTracingOrderDurationResponse {
     private long restaurantId;
     private List<OrderDuration> orders;
 }

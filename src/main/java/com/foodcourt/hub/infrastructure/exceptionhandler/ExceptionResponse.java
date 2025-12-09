@@ -14,7 +14,8 @@ public enum ExceptionResponse {
     DISHES_NOT_SAME_RESTAURANT("All dishes in the order must belong to the same restaurant"),
     ORDER_NOT_FOUND("No order found with the given criteria"),
     INVALID_PIN("The pin entered is incorrect"),
-    TRACING_NOT_FOUND("No completed order tracing records found");
+    COMPLETED_TRACING_NOT_FOUND("No completed order tracing records found"),
+    TRACING_NOT_FOUND("No order tracing records found");
 
     private final String message;
 
