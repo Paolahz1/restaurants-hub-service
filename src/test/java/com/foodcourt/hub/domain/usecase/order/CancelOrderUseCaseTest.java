@@ -7,7 +7,7 @@ import com.foodcourt.hub.domain.model.OrderStatus;
 import com.foodcourt.hub.domain.model.User;
 import com.foodcourt.hub.domain.port.spi.IOrderPersistencePort;
 import com.foodcourt.hub.domain.port.spi.IOrderTracingPersistencePort;
-import com.foodcourt.hub.domain.port.spi.ISmsSender;
+import com.foodcourt.hub.domain.port.spi.ISmsSenderPort;
 import com.foodcourt.hub.domain.port.spi.IUserInfoPort;
 import com.foodcourt.hub.infrastructure.exceptionhandler.ExceptionResponse;
 import org.junit.jupiter.api.Test;
@@ -29,7 +29,7 @@ class CancelOrderUseCaseTest {
     IOrderTracingPersistencePort orderTracingPersistencePort;
 
     @Mock
-    ISmsSender smsSender;
+    ISmsSenderPort smsSender;
 
     @Mock
     IUserInfoPort userInfoPort;
